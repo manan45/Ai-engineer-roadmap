@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  background: #0a0a0b;
+  color: #e8e8ea;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+.scroll-shadow {
+  background:
+    linear-gradient(#101014 30%, rgba(16, 16, 20, 0)),
+    linear-gradient(rgba(16, 16, 20, 0), #101014 70%) 0 100%,
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.link-chip {
+  @apply inline-flex items-center gap-1.5 rounded-md border border-border bg-panel/60 px-2 py-1 text-xs text-ink/90 hover:bg-panel hover:border-accent/60 transition;
+}
+
+.badge {
+  @apply inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted;
+}
+
+.dot-ok { background: #4ade80; }
+.dot-err { background: #f87171; }
+.dot-pending { background: #6b6b72; }
+
+::selection { background: #7c9cff55; }
