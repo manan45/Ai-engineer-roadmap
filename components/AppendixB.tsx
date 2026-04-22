@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import type { Paper } from '@/data/curriculum';
 import type { LinkStatus } from '@/lib/linkCache';
+import { LinkItem } from './LinkItem';
 
 type Props = { papers: Paper[]; statusMap?: Record<string, LinkStatus> };
 
@@ -15,10 +16,10 @@ export function AppendixB({ papers, statusMap }: Props) {
   const filtered = cat === 'All' ? papers : papers.filter((p) => p.category === cat);
 
   return (
-    <section id="appendix-b" className="scroll-mt-24">
+    <section className="scroll-mt-0">
       <div className="mb-4 flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-xl font-semibold text-ink">Appendix B · Paper Reading List</h2>
+          <h2 className="text-xl font-serif font-semibold text-ink">Practice B · Paper Reading List</h2>
           <p className="mt-1 text-sm text-muted">
             {papers.length} canonical papers. Read three/week using Yannic Kilcher or Lilian Weng
             as an accountability partner.
@@ -53,20 +54,10 @@ export function AppendixB({ papers, statusMap }: Props) {
           </thead>
           <tbody>
             {filtered.map((p) => {
-              const s = statusMap?.[p.url];
-              const dot = !s ? 'dot-pending' : s.ok ? 'dot-ok' : 'dot-err';
               return (
                 <tr key={p.url} className="border-t border-border hover:bg-panel/80">
-                  <td className="px-4 py-2">
-                    <a
-                      href={p.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-ink hover:text-accent"
-                    >
-                      <span className={`inline-block h-1.5 w-1.5 rounded-full ${dot}`} />
-                      {p.title}
-                    </a>
+                  <td className="px-4 py-2 align-top min-w-0 max-w-lg">
+                    <LinkItem label={p.title} url={p.url} statusMap={statusMap} />
                   </td>
                   <td className="px-4 py-2 text-muted">{p.authors ?? '—'}</td>
                   <td className="px-4 py-2 text-muted">{p.year ?? '—'}</td>

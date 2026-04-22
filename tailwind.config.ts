@@ -5,24 +5,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: '#0a0a0b',
-        panel: '#101014',
-        border: '#1f1f26',
-        ink: '#e8e8ea',
-        muted: '#8b8b94',
-        accent: '#7c9cff',
-        accent2: '#b48cff',
-        ok: '#4ade80',
-        warn: '#fbbf24',
-        err: '#f87171',
+        bg: 'var(--t-bg)',
+        panel: 'var(--t-panel)',
+        border: 'var(--t-border)',
+        ink: 'var(--t-ink)',
+        muted: 'var(--t-muted)',
+        accent: 'var(--t-accent)',
+        accent2: 'var(--t-accent2)',
+        ok: 'var(--t-ok)',
+        warn: 'var(--t-warn)',
+        err: 'var(--t-err)',
       },
       fontFamily: {
         sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        serif: ['var(--font-serif-source, "Source Serif 4")', 'Georgia', 'Cambria', 'serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
 
 export default config;

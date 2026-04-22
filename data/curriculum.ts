@@ -62,6 +62,16 @@ export type YoutubeCategory = {
 export type BlogEntry = { label: string; url: string; note?: string };
 export type StayingCurrentSection = { label: string; entries: BlogEntry[] };
 
+export type PracticeProblem = { title: string; note?: string; links: Link[] };
+export type PracticeGroup = { label: string; blurb?: string; problems: PracticeProblem[] };
+export type PracticeAppendixData = {
+  id: string;
+  letter: string;
+  title: string;
+  blurb: string;
+  groups: PracticeGroup[];
+};
+
 export const tracks: Track[] = [
   {
     id: 'track-1',
@@ -356,6 +366,41 @@ export const tracks: Track[] = [
           },
         ],
       },
+      {
+        id: '1-9',
+        title: '1.9 Databases, SQL & Storage Systems',
+        hours: '~20–25h',
+        why:
+          'Applied ML and FDE work quickly becomes data systems work: SQL debugging, warehouse joins, indexes, vector + relational storage, CDC, and query latency. If you cannot reason about storage, half of production AI feels like magic.',
+        concept:
+          'Relational algebra, SQL joins/aggregations/window functions, B-trees and LSMs, OLTP vs OLAP, columnar storage, query planning, transactions/isolation, lakehouse basics (Parquet / Delta / Iceberg).',
+        focus:
+          'Do SQL first, then read one real database course/module. Finish by tracing how the same data moves from Postgres to warehouse to vector store to serving layer.',
+        primary: [
+          { label: 'CMU 15-445 Database Systems', url: 'https://15445.courses.cs.cmu.edu/' },
+          { label: 'PostgreSQL tutorial', url: 'https://www.postgresql.org/docs/current/tutorial.html' },
+          { label: 'DuckDB docs', url: 'https://duckdb.org/docs/' },
+          { label: 'Designing Data-Intensive Applications', url: 'https://dataintensive.net/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Storage engines & internals',
+            links: [
+              { label: 'Alex Petrov — Database Internals', url: 'https://www.databass.dev/' },
+              { label: 'RocksDB wiki', url: 'https://github.com/facebook/rocksdb/wiki' },
+              { label: 'B-tree overview (SQLite)', url: 'https://www.sqlite.org/fileformat2.html' },
+            ],
+          },
+          {
+            label: 'Lakehouse / analytics stack',
+            links: [
+              { label: 'Apache Parquet docs', url: 'https://parquet.apache.org/docs/' },
+              { label: 'Delta Lake docs', url: 'https://docs.delta.io/latest/index.html' },
+              { label: 'Apache Iceberg docs', url: 'https://iceberg.apache.org/docs/latest/' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -508,6 +553,250 @@ export const tracks: Track[] = [
                 label: 'CS234 YouTube',
                 url: 'https://www.youtube.com/playlist?list=PLoROMvodv4rN4wG6Nk6sNpTEbuOSosZdX',
               },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-6',
+        title: '2.6 Recommender Systems at Scale',
+        hours: '~10–12h',
+        why:
+          'Every large tech company runs recommenders — feeds, ads, search. Two-tower, sequential, and generative recs are still the #1 applied-ML area by revenue. Interviews test this directly.',
+        concept:
+          'Collaborative filtering, matrix factorization, two-tower retrieval, DLRM, sequential recs (SASRec, BERT4Rec), candidate generation vs. ranking, retrieval-ranking-reranker stack, generative recs (TIGER / HSTU).',
+        focus:
+          'Read the YouTube two-tower paper + DLRM + SASRec. Build a two-tower model on MovieLens and deploy as retrieval → ranker.',
+        primary: [
+          { label: 'YouTube deep neural nets — Covington et al. 2016', url: 'https://research.google/pubs/pub45530/' },
+          { label: 'DLRM — arXiv:1906.00091', url: 'https://arxiv.org/abs/1906.00091' },
+          { label: 'SASRec — arXiv:1808.09781', url: 'https://arxiv.org/abs/1808.09781' },
+          { label: 'Eugene Yan — system design for recs', url: 'https://eugeneyan.com/writing/system-design-for-discovery/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Modern & generative recs',
+            links: [
+              { label: 'TIGER (generative retrieval) — arXiv:2305.05065', url: 'https://arxiv.org/abs/2305.05065' },
+              { label: 'HSTU (Meta) — arXiv:2402.17152', url: 'https://arxiv.org/abs/2402.17152' },
+              { label: 'Pinterest PinnerSage', url: 'https://arxiv.org/abs/2007.03634' },
+            ],
+          },
+          {
+            label: 'Foundations & courses',
+            links: [
+              { label: 'Google — Recommendation Systems course', url: 'https://developers.google.com/machine-learning/recommendation' },
+              { label: 'RecSys conference (papers)', url: 'https://recsys.acm.org/' },
+              { label: 'Microsoft Recommenders repo', url: 'https://github.com/recommenders-team/recommenders' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-7',
+        title: '2.7 Causal Inference for ML',
+        hours: '~8–10h',
+        why:
+          'Correlation models are worthless for "should we ship this intervention?" Every applied-ML team eventually needs CATE / uplift / A/B inference. Frontier-lab evals also increasingly use causal framing.',
+        concept:
+          'Potential outcomes, RCTs, propensity scores, DML, T-/X-/R-learners for CATE, uplift modeling, instrumental variables, synthetic control, DAGs & backdoor criterion.',
+        focus:
+          'Read Brady Neal book + EconML docs. Work one CATE notebook on a public dataset (Lalonde / Criteo uplift) with DoubleML.',
+        primary: [
+          { label: 'Brady Neal — Introduction to Causal Inference', url: 'https://www.bradyneal.com/causal-inference-course' },
+          { label: 'Microsoft EconML docs', url: 'https://econml.azurewebsites.net/' },
+          { label: 'Microsoft DoWhy docs', url: 'https://www.pywhy.org/dowhy/' },
+          { label: 'Künzel et al. — Meta-learners for CATE (PNAS 2019)', url: 'https://arxiv.org/abs/1706.03461' },
+        ],
+        fallbacks: [
+          {
+            label: 'Canonical references',
+            links: [
+              { label: 'Pearl — Causality (book site)', url: 'http://bayes.cs.ucla.edu/BOOK-2K/' },
+              { label: 'Hernán & Robins — Causal Inference: What If', url: 'https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/' },
+              { label: 'Matheus Facure — Causal Inference for the Brave and True', url: 'https://matheusfacure.github.io/python-causality-handbook/' },
+            ],
+          },
+          {
+            label: 'Uplift & industry applications',
+            links: [
+              { label: 'Criteo Uplift benchmark', url: 'https://ailab.criteo.com/criteo-uplift-prediction-dataset/' },
+              { label: 'Uber CausalML', url: 'https://github.com/uber/causalml' },
+              { label: 'Netflix — causal inference at scale', url: 'https://netflixtechblog.com/a-survey-of-causal-inference-applications-at-netflix-b62d25175e6f' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-8',
+        title: '2.8 Uncertainty Quantification & Conformal Prediction',
+        hours: '~6–8h',
+        why:
+          'Deployed models need calibrated confidence — for selective prediction, LLM abstention, safety-critical scoring, and selling to enterprise. Conformal prediction is the one distribution-free, finite-sample guarantee that actually ships.',
+        concept:
+          'Calibration (ECE, reliability diagrams), temperature scaling, MC Dropout, deep ensembles, Bayesian NNs, conformal prediction (split / CQR / APS), selective prediction, epistemic vs aleatoric uncertainty.',
+        focus:
+          'Read Angelopoulos & Bates conformal tutorial end-to-end. Apply split conformal to a classifier; measure coverage.',
+        primary: [
+          { label: 'Angelopoulos & Bates — Conformal tutorial (arXiv:2107.07511)', url: 'https://arxiv.org/abs/2107.07511' },
+          { label: 'Guo et al. — On Calibration of Modern NNs', url: 'https://arxiv.org/abs/1706.04599' },
+          { label: 'Deep Ensembles — Lakshminarayanan et al.', url: 'https://arxiv.org/abs/1612.01474' },
+          { label: 'MAPIE (conformal prediction library)', url: 'https://mapie.readthedocs.io/en/latest/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Conformal for LLMs & regression',
+            links: [
+              { label: 'Conformal Language Modeling — arXiv:2306.10193', url: 'https://arxiv.org/abs/2306.10193' },
+              { label: 'CQR — Conformalized Quantile Regression', url: 'https://arxiv.org/abs/1905.03222' },
+              { label: 'Awesome Conformal Prediction', url: 'https://github.com/valeman/awesome-conformal-prediction' },
+            ],
+          },
+          {
+            label: 'Bayesian deep learning',
+            links: [
+              { label: 'Gal — MC Dropout (arXiv:1506.02142)', url: 'https://arxiv.org/abs/1506.02142' },
+              { label: 'Wilson — Bayes DL (arXiv:2002.08791)', url: 'https://arxiv.org/abs/2002.08791' },
+              { label: 'Pyro docs', url: 'https://pyro.ai/examples/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-9',
+        title: '2.9 Experimentation, A/B Testing & Product Analytics',
+        hours: '~8–10h',
+        why:
+          'Most applied ML decisions are not benchmark decisions, they are product decisions. You need to know how to design an experiment, pick guardrails, analyze rollout impact, and avoid fooling yourself with noisy wins.',
+        concept:
+          'Randomized experiments, CUPED, sequential testing, power analysis, variance reduction, guardrail metrics, funnel metrics, switchback experiments, interference, online/offline metric mismatch.',
+        focus:
+          'Read a practical experimentation guide end-to-end, then analyze one historical or synthetic A/B test with proper power, confidence intervals, and guardrail interpretation.',
+        primary: [
+          { label: 'Kohavi, Tang, Xu — Trustworthy Online Controlled Experiments', url: 'https://experimentguide.com/' },
+          { label: 'Evan Miller — How Not To Run an A/B Test', url: 'https://www.evanmiller.org/how-not-to-run-an-ab-test.html' },
+          { label: 'Statsig perspectives on experimentation', url: 'https://www.statsig.com/perspectives' },
+          { label: 'Netflix experimentation platform blog', url: 'https://netflixtechblog.com/tags/experimentation/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Theory & methods',
+            links: [
+              { label: 'Optimizely stats engine / sequential testing', url: 'https://www.optimizely.com/sample-size-calculator/' },
+              { label: 'DoorDash — switchback tests', url: 'https://doordash.engineering/2022/02/15/switchback-tests-and-randomized-experimentation-under-network-effects-at-doordash/' },
+              { label: 'Microsoft ExP platform papers', url: 'https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/' },
+            ],
+          },
+          {
+            label: 'Product metrics practice',
+            links: [
+              { label: 'Mode SQL + analytics tutorial', url: 'https://mode.com/sql-tutorial/' },
+              { label: 'A/B testing by VWO', url: 'https://vwo.com/ab-testing/' },
+              { label: 'CXL experimentation articles', url: 'https://cxl.com/blog/category/ab-testing/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-10',
+        title: '2.10 Search Ranking & Learning to Rank',
+        hours: '~8–10h',
+        why:
+          'RAG is only one branch of retrieval. Production search, recommendations, marketplaces, and enterprise knowledge systems all depend on ranking. BM25, LambdaMART, and ranking metrics are core applied-ML tools.',
+        concept:
+          'Inverted indexes, BM25, candidate retrieval vs ranking, pointwise/pairwise/listwise LTR, LambdaMART, query understanding, ranking metrics (NDCG, MRR, MAP), online relevance feedback.',
+        focus:
+          'Work through BM25 + Elasticsearch/OpenSearch basics, then train one simple LambdaMART or XGBoost ranker and evaluate with NDCG.',
+        primary: [
+          { label: 'Introduction to Information Retrieval', url: 'https://nlp.stanford.edu/IR-book/' },
+          { label: 'Elasticsearch relevance docs', url: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-similarity.html' },
+          { label: 'XGBoost learning to rank tutorial', url: 'https://xgboost.readthedocs.io/en/stable/tutorials/learning_to_rank.html' },
+          { label: 'Eugene Yan — ranking systems', url: 'https://eugeneyan.com/writing/search/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Practical retrieval stacks',
+            links: [
+              { label: 'OpenSearch ranking docs', url: 'https://opensearch.org/docs/latest/search-plugins/search-relevance/' },
+              { label: 'LightGBM LTR', url: 'https://lightgbm.readthedocs.io/en/latest/Parameters.html#lambdarank' },
+              { label: 'Pyserini', url: 'https://github.com/castorini/pyserini' },
+            ],
+          },
+          {
+            label: 'Papers & benchmarks',
+            links: [
+              { label: 'LambdaMART overview (Microsoft)', url: 'https://www.microsoft.com/en-us/research/publication/from-ranknet-to-lambdarank-to-lambdamart-an-overview/' },
+              { label: 'MS MARCO', url: 'https://microsoft.github.io/msmarco/' },
+              { label: 'BEIR benchmark', url: 'https://arxiv.org/abs/2104.08663' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-11',
+        title: '2.11 Time Series Forecasting & Sequence Modeling',
+        hours: '~10–12h',
+        why:
+          'Finance, supply chain, hardware telemetry, and capacity planning all run on time series. Knowing when to use an LLM (Chronos) vs a classical model (ARIMA) vs a specialized DL model (N-BEATS/PatchTST) is a core applied-ML competency.',
+        concept:
+          'Stationarity, seasonality, ARIMA, Prophet, exponential smoothing, N-BEATS, Temporal Fusion Transformers (TFT), PatchTST, foundation models for time series (Chronos, MOIRAI), multivariate vs univariate forecasting.',
+        focus:
+          'Compare Prophet, XGBoost, and Chronos on a real-world multivariate forecasting dataset (e.g., electricity or weather). Evaluate using MAE, MAPE, and sMAPE.',
+        primary: [
+          { label: 'Forecasting: Principles and Practice (Hyndman & Athanasopoulos)', url: 'https://otexts.com/fpp3/' },
+          { label: 'N-BEATS — arXiv:1905.10437', url: 'https://arxiv.org/abs/1905.10437' },
+          { label: 'Chronos (Amazon) — arXiv:2403.07815', url: 'https://arxiv.org/abs/2403.07815' },
+          { label: 'Nixtla / NeuralForecast docs', url: 'https://nixtla.github.io/neuralforecast/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Modern DL for Time Series',
+            links: [
+              { label: 'PatchTST — arXiv:2211.14730', url: 'https://arxiv.org/abs/2211.14730' },
+              { label: 'Temporal Fusion Transformers — arXiv:1912.09363', url: 'https://arxiv.org/abs/1912.09363' },
+              { label: 'MOIRAI (Salesforce) — arXiv:2402.02592', url: 'https://arxiv.org/abs/2402.02592' },
+            ],
+          },
+          {
+            label: 'Classical & Tooling',
+            links: [
+              { label: 'Prophet (Meta)', url: 'https://facebook.github.io/prophet/' },
+              { label: 'sktime library', url: 'https://www.sktime.net/en/latest/' },
+              { label: 'Darts library', url: 'https://unit8co.github.io/darts/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2-12',
+        title: '2.12 Tabular Deep Learning vs Tree Ensembles',
+        hours: '~6–8h',
+        why:
+          'For tabular data (fraud, credit scoring, churn), XGBoost and LightGBM are still king. But tabular deep learning (TabNet, FT-Transformer) is closing the gap and allows for multi-modal fusion (text + tabular).',
+        concept:
+          'Gradient Boosted Decision Trees (GBDT), LightGBM vs XGBoost vs CatBoost, categorical embeddings, TabNet (attentive routing), FT-Transformer, deep/wide models, feature importance (SHAP, TreeSHAP).',
+        focus:
+          'Train XGBoost, CatBoost, and TabNet on a tabular dataset with high cardinality categoricals. Compare AUC, training time, and SHAP feature importances.',
+        primary: [
+          { label: 'XGBoost docs', url: 'https://xgboost.readthedocs.io/en/stable/' },
+          { label: 'CatBoost docs', url: 'https://catboost.ai/en/docs/' },
+          { label: 'TabNet — arXiv:1908.07442', url: 'https://arxiv.org/abs/1908.07442' },
+          { label: 'Why do tree-based models still outperform DL on typical tabular data? — arXiv:2207.08815', url: 'https://arxiv.org/abs/2207.08815' },
+        ],
+        fallbacks: [
+          {
+            label: 'Tabular DL Architectures',
+            links: [
+              { label: 'FT-Transformer — arXiv:2106.11959', url: 'https://arxiv.org/abs/2106.11959' },
+              { label: 'Wide & Deep (Google) — arXiv:1606.07792', url: 'https://arxiv.org/abs/1606.07792' },
+              { label: 'PyTorch Tabular library', url: 'https://pytorch-tabular.readthedocs.io/en/latest/' },
+            ],
+          },
+          {
+            label: 'Interpretability & Ensembles',
+            links: [
+              { label: 'SHAP (SHapley Additive exPlanations)', url: 'https://shap.readthedocs.io/en/latest/' },
+              { label: 'LightGBM docs', url: 'https://lightgbm.readthedocs.io/en/latest/' },
             ],
           },
         ],
@@ -738,6 +1027,146 @@ export const tracks: Track[] = [
           {
             label: 'Prince — UDL Ch 9',
             links: [{ label: 'UDL book site', url: 'https://udlbook.github.io/udlbook/' }],
+          },
+        ],
+      },
+      {
+        id: '3-8',
+        title: '3.8 Diffusion & Flow-Based Generative Models',
+        hours: '~15–20h',
+        why:
+          'Diffusion underpins every serious image, video and multimodal system (Stable Diffusion, Sora, Veo, Flux, Movie Gen). Flow matching is rapidly replacing DDPM-style training in new systems. Without this foundation, multimodal work in Track 4/7 is opaque.',
+        concept:
+          'Forward noising process, score matching, reverse SDE/ODE, classifier-free guidance, latent diffusion, rectified flow, consistency distillation.',
+        focus:
+          'DDPM → DDIM → classifier-free guidance → Latent Diffusion → Flow Matching → Rectified Flow → Consistency Models. Reimplement a 1D toy diffusion + a tiny U-Net on MNIST.',
+        primary: [
+          { label: 'Lilian Weng — What are Diffusion Models?', url: 'https://lilianweng.github.io/posts/2021-07-11-diffusion-models/' },
+          { label: 'Yang Song — score-based generative modeling', url: 'https://yang-song.net/blog/2021/score/' },
+          { label: 'Sohl-Dickstein 2015 — arXiv:1503.03585', url: 'https://arxiv.org/abs/1503.03585' },
+          { label: 'Ho et al. DDPM — arXiv:2006.11239', url: 'https://arxiv.org/abs/2006.11239' },
+          { label: 'DDIM — arXiv:2010.02502', url: 'https://arxiv.org/abs/2010.02502' },
+          { label: 'Latent Diffusion / Stable Diffusion — arXiv:2112.10752', url: 'https://arxiv.org/abs/2112.10752' },
+        ],
+        fallbacks: [
+          {
+            label: 'Flow matching & modern training',
+            links: [
+              { label: 'Classifier-Free Guidance — arXiv:2207.12598', url: 'https://arxiv.org/abs/2207.12598' },
+              { label: 'Flow Matching (Lipman) — arXiv:2210.02747', url: 'https://arxiv.org/abs/2210.02747' },
+              { label: 'Rectified Flow — arXiv:2209.03003', url: 'https://arxiv.org/abs/2209.03003' },
+              { label: 'Consistency Models — arXiv:2303.01469', url: 'https://arxiv.org/abs/2303.01469' },
+              { label: 'EDM (Karras) — arXiv:2206.00364', url: 'https://arxiv.org/abs/2206.00364' },
+              { label: 'DiT — arXiv:2212.09748', url: 'https://arxiv.org/abs/2212.09748' },
+            ],
+          },
+          {
+            label: 'Hands-on courses',
+            links: [
+              { label: 'HuggingFace Diffusion Course', url: 'https://huggingface.co/learn/diffusion-course/en/unit0/1' },
+              { label: 'fast.ai — Stable Diffusion Deep Dive', url: 'https://www.fast.ai/posts/part2-2023.html' },
+              { label: 'Sander Dieleman — Perspectives on diffusion', url: 'https://sander.ai/2023/07/20/perspectives.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '3-9',
+        title: '3.9 Graph Neural Networks & Geometric DL',
+        hours: '~12–15h',
+        why:
+          'Graphs power recsys, drug design, fraud, road networks, and the entire "AI for Science" stack. GNNs are also the cleanest window into geometric / equivariant deep learning, which matters for physics/biology tasks.',
+        concept:
+          'Message passing, GCN / GraphSAGE / GAT, expressive power & WL test, graph transformers, equivariance (E(3)/SE(3)), message-passing vs. attention on graphs, scaling (sampling, GNNAutoScale).',
+        focus:
+          'Do Stanford CS224W first 6 lectures + build a GraphSAGE node classifier in PyG. Then read Geometric Deep Learning proto-book chapters 1–3.',
+        primary: [
+          { label: 'Stanford CS224W — Machine Learning with Graphs (Leskovec)', url: 'https://web.stanford.edu/class/cs224w/' },
+          { label: 'CS224W YouTube', url: 'https://www.youtube.com/playlist?list=PLoROMvodv4rPLKxIpqhjhPgdQy7imNkDn' },
+          { label: 'PyTorch Geometric docs', url: 'https://pytorch-geometric.readthedocs.io/en/latest/' },
+          { label: 'Geometric Deep Learning proto-book', url: 'https://geometricdeeplearning.com/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Foundational papers',
+            links: [
+              { label: 'GCN — Kipf & Welling (arXiv:1609.02907)', url: 'https://arxiv.org/abs/1609.02907' },
+              { label: 'GraphSAGE — arXiv:1706.02216', url: 'https://arxiv.org/abs/1706.02216' },
+              { label: 'GAT — arXiv:1710.10903', url: 'https://arxiv.org/abs/1710.10903' },
+              { label: 'Graphormer — arXiv:2106.05234', url: 'https://arxiv.org/abs/2106.05234' },
+            ],
+          },
+          {
+            label: 'Equivariance & applications',
+            links: [
+              { label: 'EGNN — arXiv:2102.09844', url: 'https://arxiv.org/abs/2102.09844' },
+              { label: 'SchNet — arXiv:1706.08566', url: 'https://arxiv.org/abs/1706.08566' },
+              { label: 'OGB leaderboard', url: 'https://ogb.stanford.edu/' },
+              { label: 'DGL docs', url: 'https://www.dgl.ai/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '3-10',
+        title: '3.10 Computer Vision Systems',
+        hours: '~12–16h',
+        why:
+          'Vision is still one of the highest-impact applied-ML domains: OCR, industrial inspection, medical imaging, robotics, document AI, multimodal products. CNNs alone are no longer enough; modern vision means ViTs, detection, segmentation, and representation learning.',
+        concept:
+          'Vision Transformers, self-supervised vision pretraining, object detection, segmentation, tracking, OCR/document pipelines, augmentations, transfer learning, grounding and evaluation metrics (mAP, IoU).',
+        focus:
+          'Read ViT first, then do one detection/segmentation stack end-to-end on a real dataset. Build either a document-understanding or detection pipeline and evaluate with mAP/IoU.',
+        primary: [
+          { label: 'Stanford CS231n', url: 'https://cs231n.stanford.edu/' },
+          { label: 'ViT — arXiv:2010.11929', url: 'https://arxiv.org/abs/2010.11929' },
+          { label: 'Detectron2 docs', url: 'https://detectron2.readthedocs.io/en/latest/' },
+          { label: 'MMDetection docs', url: 'https://mmdetection.readthedocs.io/en/latest/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Detection / segmentation foundations',
+            links: [
+              { label: 'Faster R-CNN — arXiv:1506.01497', url: 'https://arxiv.org/abs/1506.01497' },
+              { label: 'YOLOv10 docs/paper index', url: 'https://docs.ultralytics.com/' },
+              { label: 'Mask R-CNN — arXiv:1703.06870', url: 'https://arxiv.org/abs/1703.06870' },
+              { label: 'Segment Anything — arXiv:2304.02643', url: 'https://arxiv.org/abs/2304.02643' },
+            ],
+          },
+          {
+            label: 'Representation learning & OCR',
+            links: [
+              { label: 'DINOv2 — arXiv:2304.07193', url: 'https://arxiv.org/abs/2304.07193' },
+              { label: 'TrOCR — arXiv:2109.10282', url: 'https://arxiv.org/abs/2109.10282' },
+              { label: 'PaddleOCR', url: 'https://github.com/PaddlePaddle/PaddleOCR' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '3-11',
+        title: '3.11 Hyperparameter Optimization & AutoML',
+        hours: '~6–8h',
+        why:
+          'You cannot tune a 7B model by grid search. Bayesian optimization, Population-Based Training (PBT), and Hyperband are required to squeeze maximum performance out of limited compute budgets.',
+        concept:
+          'Grid/random search, Bayesian optimization, Gaussian Processes, acquisition functions (EI, UCB), Hyperband, BOHB, Population-Based Training (PBT), Optuna, Ray Tune.',
+        focus:
+          'Use Optuna to tune the learning rate, weight decay, and dropout of a ResNet or small Transformer. Then read the PBT paper to understand evolutionary tuning.',
+        primary: [
+          { label: 'Optuna docs', url: 'https://optuna.readthedocs.io/en/stable/' },
+          { label: 'Ray Tune docs', url: 'https://docs.ray.io/en/latest/tune/index.html' },
+          { label: 'A Tutorial on Bayesian Optimization — arXiv:1807.02811', url: 'https://arxiv.org/abs/1807.02811' },
+          { label: 'Population Based Training (PBT) — DeepMind', url: 'https://arxiv.org/abs/1711.09846' },
+        ],
+        fallbacks: [
+          {
+            label: 'Advanced HPO',
+            links: [
+              { label: 'BOHB (Bayesian Optimization and Hyperband) — arXiv:1807.01774', url: 'https://arxiv.org/abs/1807.01774' },
+              { label: 'Hyperband — arXiv:1603.06560', url: 'https://arxiv.org/abs/1603.06560' },
+              { label: 'Weights & Biases Sweeps', url: 'https://docs.wandb.ai/guides/sweeps' },
+            ],
           },
         ],
       },
@@ -1038,6 +1467,368 @@ export const tracks: Track[] = [
           },
         ],
       },
+      {
+        id: '4-11',
+        title: '4.11 Data Engineering for Pretraining',
+        hours: '~10–12h',
+        why:
+          'Pretraining data quality is the dominant driver of model quality — more than architecture changes. FineWeb-Edu, RedPajama, Dolma and The Stack set the 2024–2026 bar. Every frontier team has a data team; know the pipeline end-to-end.',
+        concept:
+          'CommonCrawl → language ID → URL / boilerplate filters → MinHash + SemDedup → quality classifiers → decontamination → tokenizer training.',
+        focus:
+          'Read the FineWeb technical report in full, skim Dolma + RedPajama v2, run datatrove on a 100k-doc sample end-to-end, and inspect decontamination pipelines.',
+        primary: [
+          { label: 'FineWeb — HF tech report', url: 'https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1' },
+          { label: 'FineWeb-Edu dataset', url: 'https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu' },
+          { label: 'huggingface/datatrove', url: 'https://github.com/huggingface/datatrove' },
+          { label: 'Dolma — arXiv:2402.00159', url: 'https://arxiv.org/abs/2402.00159' },
+        ],
+        fallbacks: [
+          {
+            label: 'Other large open corpora',
+            links: [
+              { label: 'RedPajama v2 — Together blog', url: 'https://www.together.ai/blog/redpajama-data-v2' },
+              { label: 'C4 / T5 — arXiv:1910.10683', url: 'https://arxiv.org/abs/1910.10683' },
+              { label: 'The Stack v2 — arXiv:2402.19173', url: 'https://arxiv.org/abs/2402.19173' },
+              { label: 'SemDedup — arXiv:2303.09540', url: 'https://arxiv.org/abs/2303.09540' },
+            ],
+          },
+          {
+            label: 'Decontamination & evaluation leakage',
+            links: [
+              { label: "Don't Make Your LLM a Benchmark Cheater — arXiv:2311.01964", url: 'https://arxiv.org/abs/2311.01964' },
+              { label: 'GPT-4 contamination study — arXiv:2311.04850', url: 'https://arxiv.org/abs/2311.04850' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-12',
+        title: '4.12 Long-Context Engineering',
+        hours: '~8–10h',
+        why:
+          'Context windows are now the product: Gemini 1.5 at 2M tokens, Claude at 1M, GPT-4.1 at 1M. But a long context only matters if the model can use it — RULER/NIAH performance is what ships. Every serious RAG/agent system now lives in long-context land.',
+        concept:
+          'Positional encodings (RoPE, ALiBi), RoPE base scaling, YaRN, ring / context parallelism, attention sinks, RULER & NIAH diagnostics.',
+        focus:
+          'Read RoPE + YaRN, run a needle-in-a-haystack sweep on two open models, and skim the Gemini 1.5 tech report for the long-context eval design.',
+        primary: [
+          { label: 'RoPE — arXiv:2104.09864', url: 'https://arxiv.org/abs/2104.09864' },
+          { label: 'YaRN — arXiv:2309.00071', url: 'https://arxiv.org/abs/2309.00071' },
+          { label: 'Ring Attention — arXiv:2310.01889', url: 'https://arxiv.org/abs/2310.01889' },
+          { label: 'Gemini 1.5 tech report — arXiv:2403.05530', url: 'https://arxiv.org/abs/2403.05530' },
+        ],
+        fallbacks: [
+          {
+            label: 'Benchmarks & diagnostics',
+            links: [
+              { label: 'Needle-in-a-Haystack (gkamradt)', url: 'https://github.com/gkamradt/LLMTest_NeedleInAHaystack' },
+              { label: 'RULER — arXiv:2404.06654', url: 'https://arxiv.org/abs/2404.06654' },
+              { label: 'LongBench — arXiv:2308.14508', url: 'https://arxiv.org/abs/2308.14508' },
+              { label: 'LongRoPE — arXiv:2402.13753', url: 'https://arxiv.org/abs/2402.13753' },
+              { label: 'Attention Sinks — arXiv:2309.17453', url: 'https://arxiv.org/abs/2309.17453' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-13',
+        title: '4.13 Agent Benchmarks & Harnesses',
+        hours: '~10–12h',
+        why:
+          'Computer-use, browser and OS agents are the next interface. If you can ship and eval on GAIA / OSWorld / WebArena, you can ship agents at any lab. These are the benchmarks being optimized by Anthropic computer use, OpenAI Operator and Google Mariner.',
+        focus:
+          'Skim the four canonical benchmark papers, then actually run Browser-Use or OpenHands on 2–3 tasks and measure success rate.',
+        primary: [
+          { label: 'GAIA — arXiv:2311.12983', url: 'https://arxiv.org/abs/2311.12983' },
+          { label: 'OSWorld — arXiv:2404.07972', url: 'https://arxiv.org/abs/2404.07972' },
+          { label: 'WebArena — arXiv:2307.13854', url: 'https://arxiv.org/abs/2307.13854' },
+          { label: 'τ-bench — arXiv:2406.12045', url: 'https://arxiv.org/abs/2406.12045' },
+        ],
+        fallbacks: [
+          {
+            label: 'Reference harnesses',
+            links: [
+              { label: 'browser-use/browser-use', url: 'https://github.com/browser-use/browser-use' },
+              { label: 'All-Hands-AI/OpenHands', url: 'https://github.com/All-Hands-AI/OpenHands' },
+              { label: 'VisualWebArena — arXiv:2401.13649', url: 'https://arxiv.org/abs/2401.13649' },
+            ],
+          },
+          {
+            label: 'Lab-built computer-use agents',
+            links: [
+              { label: 'Anthropic — computer use', url: 'https://www.anthropic.com/news/3-5-models-and-computer-use' },
+              { label: 'OpenAI — Operator', url: 'https://openai.com/index/introducing-operator/' },
+              { label: 'Google — Project Mariner', url: 'https://deepmind.google/technologies/project-mariner/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-14',
+        title: '4.14 Embeddings, Retrieval Infra & Reranking',
+        hours: '~10–12h',
+        why:
+          'Most "RAG doesn\'t work" failures are retrieval-infra failures — wrong embedding model, no reranker, naive chunking. This is where FDE / Applied ML engineers actually spend their time.',
+        concept:
+          'Embedding model selection (MTEB), fine-tuning embeddings, hybrid search (BM25 + dense), rerankers (cross-encoders, Cohere Rerank, bge-reranker), chunking (semantic, late / contextual retrieval), retrieval evaluation (BEIR, RAGAS, NDCG / MRR).',
+        focus:
+          'Pick a task, build BM25 + dense hybrid + cross-encoder rerank, evaluate with RAGAS and a small BEIR-style split. Read Anthropic\'s Contextual Retrieval and MTEB.',
+        primary: [
+          { label: 'Anthropic — Contextual Retrieval', url: 'https://www.anthropic.com/news/contextual-retrieval' },
+          { label: 'MTEB leaderboard (HF)', url: 'https://huggingface.co/spaces/mteb/leaderboard' },
+          { label: 'BEIR — arXiv:2104.08663', url: 'https://arxiv.org/abs/2104.08663' },
+          { label: 'Ragas docs', url: 'https://docs.ragas.io/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Embedding models & rerankers',
+            links: [
+              { label: 'BGE embeddings & rerankers', url: 'https://github.com/FlagOpen/FlagEmbedding' },
+              { label: 'Nomic Embed — technical report', url: 'https://blog.nomic.ai/posts/nomic-embed-text-v1' },
+              { label: 'Voyage AI — embeddings & rerankers', url: 'https://docs.voyageai.com/' },
+              { label: 'Cohere Rerank docs', url: 'https://docs.cohere.com/docs/overview' },
+            ],
+          },
+          {
+            label: 'Chunking & hybrid search',
+            links: [
+              { label: 'Chroma Research — chunking study', url: 'https://research.trychroma.com/evaluating-chunking' },
+              { label: 'Late Chunking — arXiv:2409.04701', url: 'https://arxiv.org/abs/2409.04701' },
+              { label: 'Pinecone — Hybrid Search guide', url: 'https://docs.pinecone.io/guides/search/hybrid-search' },
+              { label: 'Sentence-Transformers docs', url: 'https://www.sbert.net/' },
+            ],
+          },
+          {
+            label: 'Vector DB reference',
+            links: [
+              { label: 'pgvector (Postgres)', url: 'https://github.com/pgvector/pgvector' },
+              { label: 'Weaviate docs', url: 'https://weaviate.io/developers/weaviate' },
+              { label: 'Qdrant docs', url: 'https://qdrant.tech/documentation/' },
+              { label: 'LanceDB docs', url: 'https://lancedb.github.io/lancedb/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-15',
+        title: '4.15 Training Recipes & Stability',
+        hours: '~10–12h',
+        why:
+          'Frontier training runs fail for prosaic reasons: loss spikes, exploding logits, bad data mix, lost checkpoints. Knowing the actual recipe (µP, Z-loss, warmup, clipping, data curriculum, resumption) is what separates "studied training" from "shipped a training run".',
+        concept:
+          'µP / µTransfer for HP transfer, Z-loss for logit stability, gradient clipping, learning-rate warmup + cosine / WSD schedules, data mixing & curriculum, DCP checkpointing.',
+        focus:
+          'Read µTransfer + OLMo training notes + Chinchilla. Train a small model with FSDP + DCP checkpointing; intentionally induce + recover from a loss spike.',
+        primary: [
+          { label: 'Chinchilla — arXiv:2203.15556', url: 'https://arxiv.org/abs/2203.15556' },
+          { label: 'µP / µTransfer — arXiv:2203.03466', url: 'https://arxiv.org/abs/2203.03466' },
+          { label: 'OLMo — arXiv:2402.00838', url: 'https://arxiv.org/abs/2402.00838' },
+          { label: 'PaLM — arXiv:2204.02311 (Z-loss, training stability)', url: 'https://arxiv.org/abs/2204.02311' },
+        ],
+        fallbacks: [
+          {
+            label: 'Data mixing, curriculum & schedules',
+            links: [
+              { label: 'DoReMi — arXiv:2305.10429', url: 'https://arxiv.org/abs/2305.10429' },
+              { label: 'Warmup-Stable-Decay (WSD) — arXiv:2404.06395', url: 'https://arxiv.org/abs/2404.06395' },
+              { label: 'MiniCPM training report', url: 'https://arxiv.org/abs/2404.06395' },
+            ],
+          },
+          {
+            label: 'Stability debugging & loss spikes',
+            links: [
+              { label: 'Gopher — arXiv:2112.11446', url: 'https://arxiv.org/abs/2112.11446' },
+              { label: 'OLMo 2 — arXiv:2501.00656', url: 'https://arxiv.org/abs/2501.00656' },
+              { label: 'Stas Bekman — 176B training chronicles', url: 'https://github.com/stas00/ml-engineering' },
+            ],
+          },
+          {
+            label: 'Checkpointing & observability',
+            links: [
+              { label: 'PyTorch Distributed Checkpoint (DCP) docs', url: 'https://pytorch.org/docs/stable/distributed.checkpoint.html' },
+              { label: 'FSDP tutorial', url: 'https://pytorch.org/tutorials/intermediate/FSDP_tutorial.html' },
+              { label: 'Weights & Biases — LLM training guide', url: 'https://docs.wandb.ai/guides/models' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-16',
+        title: '4.16 Distillation & Rejection Sampling',
+        hours: '~8–10h',
+        why:
+          'Every production-grade small model (Claude Haiku, GPT-4o-mini, Gemini Flash, Llama-3.1-8B) is trained with distillation + rejection sampling from a stronger teacher. This is how frontier labs compress capability into cheap inference.',
+        concept:
+          'Knowledge distillation (Hinton), sequence-level KD, on-policy distillation, rejection sampling fine-tuning (RSFT), best-of-N → SFT, reward-model-guided data curation.',
+        focus:
+          'Read Hinton distillation, Llama 2 (rejection sampling section), Zephyr (distilled DPO). Distill a 7B open-source teacher into a 1B student on one task; compare to raw SFT.',
+        primary: [
+          { label: 'Hinton — Distilling the Knowledge arXiv:1503.02531', url: 'https://arxiv.org/abs/1503.02531' },
+          { label: 'Llama 2 — arXiv:2307.09288 (rejection sampling)', url: 'https://arxiv.org/abs/2307.09288' },
+          { label: 'Zephyr / distilled DPO — arXiv:2310.16944', url: 'https://arxiv.org/abs/2310.16944' },
+          { label: 'On-policy distillation (Google) — arXiv:2306.13649', url: 'https://arxiv.org/abs/2306.13649' },
+        ],
+        fallbacks: [
+          {
+            label: 'Rejection sampling & self-training',
+            links: [
+              { label: 'STaR — arXiv:2203.14465', url: 'https://arxiv.org/abs/2203.14465' },
+              { label: 'RFT (Rejection sampling Fine-Tuning) — arXiv:2308.01825', url: 'https://arxiv.org/abs/2308.01825' },
+              { label: 'Self-Rewarding LLMs — arXiv:2401.10020', url: 'https://arxiv.org/abs/2401.10020' },
+            ],
+          },
+          {
+            label: 'Practical small-model recipes',
+            links: [
+              { label: 'TinyLlama — arXiv:2401.02385', url: 'https://arxiv.org/abs/2401.02385' },
+              { label: 'MiniLLM — arXiv:2306.08543', url: 'https://arxiv.org/abs/2306.08543' },
+              { label: 'DistilBERT — arXiv:1910.01108', url: 'https://arxiv.org/abs/1910.01108' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-17',
+        title: '4.17 Computer-Use & GUI Agents',
+        hours: '~8–10h',
+        why:
+          'Claude Computer Use (Oct 2024) and OpenAI Operator (2025) opened a new agent archetype: models that operate real GUIs via screenshots, mouse, and keyboard. This is now a named evaluation axis at every frontier lab and the next major FDE deployment target.',
+        concept:
+          'Vision-grounded agent loops, screenshot → action (click/type/scroll), set-of-marks & SeeAct-style grounding, trajectory collection, sandboxing (VMs, browsers), OSWorld / WebArena / VisualWebArena / WebVoyager / AgentBench evaluation.',
+        focus:
+          'Read Anthropic Computer Use post + OSWorld paper. Build a small browser agent on top of Playwright + a VLM; evaluate on a slice of WebArena.',
+        primary: [
+          { label: 'Anthropic — Introducing Computer Use', url: 'https://www.anthropic.com/news/3-5-models-and-computer-use' },
+          { label: 'OSWorld — arXiv:2404.07972', url: 'https://arxiv.org/abs/2404.07972' },
+          { label: 'WebArena — arXiv:2307.13854', url: 'https://arxiv.org/abs/2307.13854' },
+          { label: 'SeeAct — arXiv:2401.01614', url: 'https://arxiv.org/abs/2401.01614' },
+        ],
+        fallbacks: [
+          {
+            label: 'Benchmarks & datasets',
+            links: [
+              { label: 'VisualWebArena — arXiv:2401.13649', url: 'https://arxiv.org/abs/2401.13649' },
+              { label: 'WebVoyager — arXiv:2401.13919', url: 'https://arxiv.org/abs/2401.13919' },
+              { label: 'Mind2Web — arXiv:2306.06070', url: 'https://arxiv.org/abs/2306.06070' },
+            ],
+          },
+          {
+            label: 'Frameworks & systems',
+            links: [
+              { label: 'Anthropic computer-use quickstart repo', url: 'https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo' },
+              { label: 'browser-use', url: 'https://github.com/browser-use/browser-use' },
+              { label: 'Playwright docs', url: 'https://playwright.dev/docs/intro' },
+              { label: 'OpenAI Operator announcement', url: 'https://openai.com/index/introducing-operator/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-18',
+        title: '4.18 Human Data, Labeling Ops & Preference Collection',
+        hours: '~8–10h',
+        why:
+          'Post-training quality is usually bottlenecked by data operations, not model cleverness. Frontier teams live or die on rubric design, annotation quality, disagreement analysis, and preference collection pipelines.',
+        concept:
+          'Label taxonomies, annotation rubrics, pairwise preference collection, inter-annotator agreement, QA sampling, adversarial data collection, reviewer calibration, data governance, privacy and redaction in human feedback pipelines.',
+        focus:
+          'Design one annotation rubric, run a small labeling pass, compute agreement, inspect disagreement clusters, and revise the rubric once before trusting the data.',
+        primary: [
+          { label: 'InstructGPT — arXiv:2203.02155', url: 'https://arxiv.org/abs/2203.02155' },
+          { label: 'Anthropic HH-RLHF — arXiv:2204.05862', url: 'https://arxiv.org/abs/2204.05862' },
+          { label: 'Scale AI — RLHF overview', url: 'https://scale.com/blog/rlhf' },
+          { label: 'Label Studio docs', url: 'https://labelstud.io/guide/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Human eval and annotation quality',
+            links: [
+              { label: 'Snorkel programmatic labeling docs', url: 'https://snorkel.ai/data-centric-ai/' },
+              { label: 'Argilla docs', url: 'https://docs.argilla.io/latest/' },
+              { label: 'Prodigy annotation docs', url: 'https://prodi.gy/docs/' },
+            ],
+          },
+          {
+            label: 'Preference datasets & ops',
+            links: [
+              { label: 'UltraFeedback', url: 'https://arxiv.org/abs/2310.01377' },
+              { label: 'OpenAssistant conversations', url: 'https://huggingface.co/datasets/OpenAssistant/oasst1' },
+              { label: 'Data-centric AI resources', url: 'https://dcai.csail.mit.edu/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-19',
+        title: '4.19 Vision-Language Grounding, OCR & Document Intelligence',
+        hours: '~8–10h',
+        why:
+          'A large share of real multimodal work is not "image captioning", it is documents, screenshots, GUIs, charts, forms, OCR, and grounding. This is exactly where enterprise AI and computer-use agents meet.',
+        concept:
+          'OCR pipelines, layout-aware models, grounding, referring expressions, chart understanding, UI/screen understanding, doc VQA, multimodal evals for forms/tables/screenshots.',
+        focus:
+          'Build one document or screenshot pipeline end-to-end: OCR/layout extraction + VLM answer layer + task-specific evaluation on tables/forms/screens.',
+        primary: [
+          { label: 'LayoutLMv3 — arXiv:2204.08387', url: 'https://arxiv.org/abs/2204.08387' },
+          { label: 'Donut — arXiv:2111.15664', url: 'https://arxiv.org/abs/2111.15664' },
+          { label: 'ScreenAI — arXiv:2402.04615', url: 'https://arxiv.org/abs/2402.04615' },
+          { label: 'OCR-free document understanding (Nougat) — arXiv:2308.13418', url: 'https://arxiv.org/abs/2308.13418' },
+        ],
+        fallbacks: [
+          {
+            label: 'Tools & benchmarks',
+            links: [
+              { label: 'PaddleOCR', url: 'https://github.com/PaddlePaddle/PaddleOCR' },
+              { label: 'DocVQA challenge', url: 'https://www.docvqa.org/' },
+              { label: 'ChartQA — arXiv:2203.10244', url: 'https://arxiv.org/abs/2203.10244' },
+              { label: 'UI-Vision / screen understanding benchmarks', url: 'https://huggingface.co/papers?q=screen+understanding' },
+            ],
+          },
+          {
+            label: 'Grounding & agents',
+            links: [
+              { label: 'Grounding DINO — arXiv:2303.05499', url: 'https://arxiv.org/abs/2303.05499' },
+              { label: 'SEEClick — arXiv:2401.10935', url: 'https://arxiv.org/abs/2401.10935' },
+              { label: 'Mind2Web', url: 'https://arxiv.org/abs/2306.06070' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '4-20',
+        title: '4.20 Knowledge Graphs & GraphRAG',
+        hours: '~8–10h',
+        why:
+          'Dense retrieval fails on global questions ("What is the overall theme of these 100 documents?") and multi-hop reasoning. Knowledge Graphs combined with LLMs (GraphRAG) solve this and are highly requested in enterprise AI.',
+        concept:
+          'RDF, property graphs, Cypher/Gremlin, entity/relation extraction via LLMs, ontology design, GraphRAG (Microsoft), community detection (Leiden), vector + graph hybrid search.',
+        focus:
+          'Read the Microsoft GraphRAG paper. Build a small property graph in Neo4j using an LLM to extract entities, then query it using Cypher generated by an LLM.',
+        primary: [
+          { label: 'GraphRAG (Microsoft) — arXiv:2404.16130', url: 'https://arxiv.org/abs/2404.16130' },
+          { label: 'Neo4j GraphRAG ecosystem', url: 'https://neo4j.com/generative-ai/' },
+          { label: 'LlamaIndex Property Graph docs', url: 'https://docs.llamaindex.ai/en/stable/module_guides/indexing/lpg_index_guide/' },
+          { label: 'Stanford CS224W — Knowledge Graphs', url: 'https://web.stanford.edu/class/cs224w/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Graph databases & query languages',
+            links: [
+              { label: 'Neo4j Cypher manual', url: 'https://neo4j.com/docs/cypher-manual/current/' },
+              { label: 'Amazon Neptune docs', url: 'https://aws.amazon.com/neptune/' },
+              { label: 'Apache TinkerPop / Gremlin', url: 'https://tinkerpop.apache.org/' },
+            ],
+          },
+          {
+            label: 'Entity extraction & neuro-symbolic',
+            links: [
+              { label: 'DeepDive / Snorkel (historical context)', url: 'http://deepdive.stanford.edu/' },
+              { label: 'KGC (Knowledge Graph Conference) resources', url: 'https://www.knowledgegraph.tech/' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -1191,6 +1982,282 @@ export const tracks: Track[] = [
           {
             label: 'Evidently AI (monitoring/drift)',
             links: [{ label: 'Evidently docs', url: 'https://docs.evidentlyai.com/' }],
+          },
+        ],
+      },
+      {
+        id: '5-6',
+        title: '5.6 GPU Kernel Ecosystem (Triton, CUTLASS, FA-3)',
+        hours: '~12–15h',
+        why:
+          'Almost every serious open-source speedup in 2024–2026 ships as a Triton / CUTLASS kernel (FlashAttention-3, Liger, ThunderKittens). Reading and writing custom kernels is now table-stakes for systems roles and a hard edge for everyone else.',
+        concept:
+          'Triton tile programming → CUTLASS GEMM / epilogue → FlashAttention-3 (warp-specialized + FP8) → torch.compile / TorchInductor lowering.',
+        focus:
+          'Do the first 4 Triton tutorials (vector add, softmax, matmul, fused attention), then read the FA-3 paper and skim CUTLASS 3.x layout.',
+        primary: [
+          { label: 'Triton tutorials', url: 'https://triton-lang.org/main/getting-started/tutorials/index.html' },
+          { label: 'FlashAttention-3 — arXiv:2407.08608', url: 'https://arxiv.org/abs/2407.08608' },
+          { label: 'NVIDIA/cutlass', url: 'https://github.com/NVIDIA/cutlass' },
+          { label: 'torch.compile / Inductor docs', url: 'https://pytorch.org/docs/stable/torch.compiler.html' },
+        ],
+        fallbacks: [
+          {
+            label: 'Production kernel libraries',
+            links: [
+              { label: 'linkedin/Liger-Kernel', url: 'https://github.com/linkedin/Liger-Kernel' },
+              { label: 'HazyResearch/ThunderKittens', url: 'https://github.com/HazyResearch/ThunderKittens' },
+              { label: 'ThunderKittens blog', url: 'https://hazyresearch.stanford.edu/blog/2024-05-12-tk' },
+              { label: 'Dao-AILab/flash-attention', url: 'https://github.com/Dao-AILab/flash-attention' },
+            ],
+          },
+          {
+            label: 'Study groups & videos',
+            links: [
+              { label: 'gpu-mode/resource-stream', url: 'https://github.com/gpu-mode/resource-stream' },
+              { label: 'Umar Jamil — FlashAttention walkthrough', url: 'https://www.youtube.com/watch?v=zy8ChVd_oTM' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-7',
+        title: '5.7 Accelerators Beyond NVIDIA',
+        hours: '~6–8h',
+        why:
+          'Frontier labs train on TPU (Google/Anthropic), Trainium (Amazon/Anthropic), MI300X (AMD) and serve on Groq / Cerebras / Etched. Being literate in non-NVIDIA stacks is now a requirement for FDE and systems roles.',
+        focus:
+          'Read the TPU v4 paper for systolic-array intuition, skim AWS Trainium / AMD MI300 / Groq LPU overviews, and understand where each wins (training vs inference, memory bandwidth vs compute).',
+        primary: [
+          { label: 'TPU v4 — arXiv:2304.01433', url: 'https://arxiv.org/abs/2304.01433' },
+          { label: 'TPU v5p / Trillium docs', url: 'https://cloud.google.com/tpu/docs/v5p-training' },
+          { label: 'AWS Trainium 2', url: 'https://aws.amazon.com/ai/machine-learning/trainium/' },
+          { label: 'AMD Instinct MI300X', url: 'https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html' },
+        ],
+        fallbacks: [
+          {
+            label: 'Inference-specialized silicon',
+            links: [
+              { label: 'Groq LPU — technical overview', url: 'https://wow.groq.com/lpu-inference-engine/' },
+              { label: 'Cerebras WSE-3', url: 'https://www.cerebras.ai/chip' },
+              { label: 'SambaNova RDU', url: 'https://sambanova.ai/technology' },
+              { label: 'Etched — Sohu chip', url: 'https://www.etched.com/announcing-etched' },
+            ],
+          },
+          {
+            label: 'SemiAnalysis deep dives',
+            links: [{ label: 'SemiAnalysis', url: 'https://www.semianalysis.com/' }],
+          },
+        ],
+      },
+      {
+        id: '5-8',
+        title: '5.8 On-Device & Edge AI',
+        hours: '~8–10h',
+        why:
+          'Apple Intelligence, Gemini Nano and phi-4-mini make on-device inference a real product surface. This is distinct from Track 5.5 (compression theory) — it is runtime + OS-integration work: MLX, llama.cpp, Ollama, ExecuTorch, WebLLM.',
+        focus:
+          'Install and benchmark a 3–7B model locally across llama.cpp + MLX + Ollama. Read Apple Foundation Models + Gemini Nano architecture notes.',
+        primary: [
+          { label: 'ggerganov/llama.cpp', url: 'https://github.com/ggerganov/llama.cpp' },
+          { label: 'ml-explore/mlx', url: 'https://github.com/ml-explore/mlx' },
+          { label: 'Apple Intelligence foundation models report', url: 'https://machinelearning.apple.com/research/apple-intelligence-foundation-language-models' },
+          { label: 'Gemini Nano (DeepMind)', url: 'https://deepmind.google/technologies/gemini/nano/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Small but capable models',
+            links: [
+              { label: 'phi-4 — arXiv:2412.08905', url: 'https://arxiv.org/abs/2412.08905' },
+              { label: 'phi-3 technical report — arXiv:2404.14219', url: 'https://arxiv.org/abs/2404.14219' },
+              { label: 'Gemma 3 tech report', url: 'https://ai.google.dev/gemma' },
+              { label: 'SmolLM2 (HF)', url: 'https://huggingface.co/blog/smollm' },
+            ],
+          },
+          {
+            label: 'Runtimes & tooling',
+            links: [
+              { label: 'Ollama', url: 'https://ollama.com/' },
+              { label: 'mlc-ai/web-llm', url: 'https://github.com/mlc-ai/web-llm' },
+              { label: 'PyTorch ExecuTorch', url: 'https://pytorch.org/executorch/stable/index.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-9',
+        title: '5.9 Model Compilers & Graph-Level Optimization',
+        hours: '~10–12h',
+        why:
+          'torch.compile / Inductor / XLA / TVM / TensorRT are where the easy 2–4× performance lives. Every serious ML systems engineer is expected to know fusions, graph capture, dynamic shapes, and how to read IR. This is largely missing from public curricula.',
+        concept:
+          'Graph capture (torch.fx, torch.export), fusion passes, codegen backends (Inductor, Triton), dynamic shapes & guards, XLA HLO, MLIR, TVM / TensorRT pipelines, ONNX as an IR, inference-time graph optimizations.',
+        focus:
+          'Read the torch.compile / Inductor paper + Horace He\'s blog + XLA HLO primer. Compile a real model with torch.compile, dump inductor output, identify fusions.',
+        primary: [
+          { label: 'PyTorch 2 — torch.compile (arXiv:2311.02103)', url: 'https://arxiv.org/abs/2311.02103' },
+          { label: 'TorchInductor & Triton codegen (PT blog)', url: 'https://pytorch.org/blog/accelerated-pytorch-2/' },
+          { label: 'Horace He — Making Deep Learning Go Brrrr', url: 'https://horace.io/brrr_intro.html' },
+          { label: 'TVM docs', url: 'https://tvm.apache.org/docs/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Compiler stacks',
+            links: [
+              { label: 'XLA overview', url: 'https://openxla.org/xla' },
+              { label: 'MLIR docs', url: 'https://mlir.llvm.org/' },
+              { label: 'TensorRT-LLM', url: 'https://github.com/NVIDIA/TensorRT-LLM' },
+              { label: 'ONNX Runtime', url: 'https://onnxruntime.ai/docs/' },
+            ],
+          },
+          {
+            label: 'Internals & deep dives',
+            links: [
+              { label: 'Edward Yang — PyTorch internals', url: 'http://blog.ezyang.com/2019/05/pytorch-internals/' },
+              { label: 'Chris Lattner — Compilers for ML (LLVM talk)', url: 'https://www.youtube.com/watch?v=NEJcXwcrf28' },
+              { label: 'IREE compiler', url: 'https://iree.dev/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-10',
+        title: '5.10 PyTorch Internals, Autograd & Custom Ops',
+        hours: '~12–15h',
+        why:
+          'If you want to work seriously on training, inference, kernels, or debugging, PyTorch cannot just be "the API you call". Frontier and systems roles expect you to understand autograd, dispatch, FX/export, memory layout, and how custom C++/CUDA/Triton ops plug in.',
+        concept:
+          'Tensor storage/strides, autograd graph & backward formulas, dispatcher / ATen / operators, torch.fx + torch.export, C++ extensions, custom CUDA/Triton ops, profiling, memory allocator behavior, checkpointing and graph breaks.',
+        focus:
+          'Read PyTorch internals + extension docs. Implement one custom op twice: first in pure PyTorch, then as a custom extension or Triton kernel, and inspect the autograd/profiler trace.',
+        primary: [
+          { label: 'Edward Yang — PyTorch internals', url: 'http://blog.ezyang.com/2019/05/pytorch-internals/' },
+          { label: 'PyTorch autograd mechanics', url: 'https://docs.pytorch.org/docs/stable/notes/autograd.html' },
+          { label: 'PyTorch custom C++ and CUDA extensions', url: 'https://docs.pytorch.org/tutorials/advanced/cpp_extension.html' },
+          { label: 'torch.fx docs', url: 'https://pytorch.org/docs/stable/fx.html' },
+        ],
+        fallbacks: [
+          {
+            label: 'Export / compile / debugging',
+            links: [
+              { label: 'torch.export docs', url: 'https://pytorch.org/docs/stable/export.html' },
+              { label: 'PyTorch profiler docs', url: 'https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html' },
+              { label: 'PyTorch memory management notes', url: 'https://pytorch.org/docs/stable/notes/cuda.html' },
+            ],
+          },
+          {
+            label: 'Advanced systems references',
+            links: [
+              { label: 'Horace He — torch.compile / systems posts', url: 'https://horace.io' },
+              { label: 'PyTorch developer notes', url: 'https://github.com/pytorch/pytorch/wiki' },
+              { label: 'Triton docs', url: 'https://triton-lang.org/main/index.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-11',
+        title: '5.11 TensorFlow, JAX & XLA Ecosystem',
+        hours: '~10–12h',
+        why:
+          'TensorFlow is no longer the default research stack, but it still matters in production, TFX, TF Serving, Keras, and many legacy teams. JAX/XLA matters because Google/DeepMind frontier work, TPU training, and modern compiler-first ML systems are built around it.',
+        concept:
+          'TensorFlow eager vs graph mode, tf.function / autograph, Keras training stack, TF Serving / TFX, JAX transformations (jit, vmap, pmap, grad), XLA HLO, TPU-first training, Flax / Optax / Pax-style ecosystems.',
+        focus:
+          'Do one small model in both TensorFlow/Keras and JAX/Flax. Compare eager vs compiled graphs, then inspect an HLO dump so the compiler path is not a black box.',
+        primary: [
+          { label: 'TensorFlow guide', url: 'https://www.tensorflow.org/guide' },
+          { label: 'Keras guides', url: 'https://keras.io/guides/' },
+          { label: 'JAX 101', url: 'https://jax.readthedocs.io/en/latest/jax-101/index.html' },
+          { label: 'OpenXLA overview', url: 'https://openxla.org/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Production TensorFlow',
+            links: [
+              { label: 'TFX docs', url: 'https://www.tensorflow.org/tfx' },
+              { label: 'TensorFlow Serving', url: 'https://www.tensorflow.org/tfx/guide/serving' },
+              { label: 'TensorFlow Recommenders', url: 'https://www.tensorflow.org/recommenders' },
+            ],
+          },
+          {
+            label: 'JAX / TPU stacks',
+            links: [
+              { label: 'Flax docs', url: 'https://flax.readthedocs.io/en/latest/' },
+              { label: 'Optax docs', url: 'https://optax.readthedocs.io/en/latest/' },
+              { label: 'Google TPU docs', url: 'https://cloud.google.com/tpu/docs' },
+              { label: 'MaxText', url: 'https://github.com/AI-Hypercomputer/maxtext' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-12',
+        title: '5.12 Cluster Networking for ML Systems',
+        hours: '~10–12h',
+        why:
+          'Distributed training bottlenecks are often network bottlenecks. If you do not understand collectives, topology, NVLink, InfiniBand, and RDMA, you cannot reason about why your all-reduce is slow or why MFU collapses at scale.',
+        concept:
+          'Ring/tree all-reduce, reduce-scatter + all-gather, NCCL internals, PCIe vs NVLink vs NVSwitch, InfiniBand / RoCE / RDMA, cluster topology, oversubscription, collective overlap, failure modes and observability.',
+        focus:
+          'Read one practical distributed-systems-for-LLMs guide, then profile one multi-GPU or simulated collective path and explain where the communication time goes.',
+        primary: [
+          { label: 'NCCL developer guide', url: 'https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/index.html' },
+          { label: 'GPU MODE — ring attention / communication lectures', url: 'https://github.com/gpu-mode/lectures' },
+          { label: 'NVIDIA NVLink / NVSwitch overview', url: 'https://www.nvidia.com/en-us/data-center/nvlink/' },
+          { label: 'Meta / PyTorch distributed training networking talks', url: 'https://pytorch.org/blog/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Networking background',
+            links: [
+              { label: 'RDMA aware networks programming guide', url: 'https://docs.nvidia.com/networking/display/rdmaawareprogrammingv17' },
+              { label: 'InfiniBand architecture overview', url: 'https://www.nvidia.com/en-us/networking/products/infiniband/' },
+              { label: 'Horovod concepts', url: 'https://horovod.readthedocs.io/en/stable/concepts.html' },
+            ],
+          },
+          {
+            label: 'Cluster-scale context',
+            links: [
+              { label: 'Azure ND H100 / IB topology docs', url: 'https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/gpu-accelerated/nd-family' },
+              { label: 'Google A3 / networking docs', url: 'https://cloud.google.com/compute/docs/gpus' },
+              { label: 'PyTorch distributed overview', url: 'https://pytorch.org/tutorials/beginner/dist_overview.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-13',
+        title: '5.13 TPU Systems, Sharding & Pod-Scale JAX',
+        hours: '~8–10h',
+        why:
+          'JAX is not complete without TPU systems. A lot of Google/DeepMind-scale training assumes TPUs, SPMD sharding, and XLA-first design. If you want real frontier-systems coverage, TPU mental models need to be explicit.',
+        concept:
+          'TPU architecture basics, SPMD partitioning, pjit / shard_map, mesh definitions, XLA sharding annotations, input pipelines, checkpointing, pod-scale training, MaxText / Pax / T5X style stacks.',
+        focus:
+          'Take one JAX model, add explicit sharding, inspect HLO/sharding, and trace how it would scale from single host to pod.',
+        primary: [
+          { label: 'JAX distributed arrays / sharding docs', url: 'https://jax.readthedocs.io/en/latest/notebooks/Distributed_arrays_and_automatic_parallelization.html' },
+          { label: 'Google Cloud TPU docs', url: 'https://cloud.google.com/tpu/docs' },
+          { label: 'MaxText', url: 'https://github.com/AI-Hypercomputer/maxtext' },
+          { label: 'T5X docs', url: 'https://github.com/google-research/t5x' },
+        ],
+        fallbacks: [
+          {
+            label: 'Frameworks & practice',
+            links: [
+              { label: 'PaxML', url: 'https://github.com/google/paxml' },
+              { label: 'Flax NNX/linen docs', url: 'https://flax.readthedocs.io/en/latest/' },
+              { label: 'OpenXLA tutorials', url: 'https://openxla.org/xla/tutorials' },
+            ],
+          },
+          {
+            label: 'Scaling references',
+            links: [
+              { label: 'Pathways system blog/paper index', url: 'https://blog.google/technology/ai/introducing-pathways-next-generation-ai-architecture/' },
+              { label: 'PaLM — training at TPU scale', url: 'https://arxiv.org/abs/2204.02311' },
+              { label: 'Gemma / JAX ecosystem examples', url: 'https://ai.google.dev/gemma/docs' },
+            ],
           },
         ],
       },
@@ -1513,6 +2580,1094 @@ export const tracks: Track[] = [
             links: [
               { label: 'newsletter.pragmaticengineer.com', url: 'https://newsletter.pragmaticengineer.com/' },
               { label: 'blog.pragmaticengineer.com', url: 'https://blog.pragmaticengineer.com/' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'track-7',
+    title: 'Track 7: Frontier Research Topics (2025–2026)',
+    blurb:
+      'The topics that dominated frontier labs in the last 18 months. Skim survey posts first; then commit to 2–3 areas closest to your target role.',
+    topics: [
+      {
+        id: '7-1',
+        title: '7.1 Reasoning & Test-Time Compute',
+        hours: '~20–30h',
+        why:
+          'The o1 / R1 paradigm shifted how labs allocate compute. Verifier-guided search, process reward models and GRPO underpin every reasoning frontier model shipped since 2024.',
+        focus:
+          "Kickoff with Lilian Weng's why-we-think survey, then pair DeepSeek-R1 and OpenAI's o1 system cards with a GRPO-from-scratch reimplementation.",
+        primary: [
+          {
+            label: 'Lilian Weng — Why We Think',
+            url: 'https://lilianweng.github.io/posts/2025-05-01-thinking/',
+          },
+          { label: 'DeepSeek-R1 — arXiv:2501.12948', url: 'https://arxiv.org/abs/2501.12948' },
+          { label: 'OpenAI — Learning to Reason with LLMs (o1)', url: 'https://openai.com/index/learning-to-reason-with-llms/' },
+          { label: "Let's Verify Step by Step (PRMs) — arXiv:2305.20050", url: 'https://arxiv.org/abs/2305.20050' },
+        ],
+        fallbacks: [
+          {
+            label: 'Surveys',
+            links: [
+              { label: 'Reasoning LLMs survey — arXiv:2501.09686', url: 'https://arxiv.org/abs/2501.09686' },
+              {
+                label: 'Sasha Rush — Speculations on Test-Time Compute',
+                url: 'https://srush.github.io/awesome-o1/',
+              },
+            ],
+          },
+          {
+            label: 'Open reimplementations',
+            links: [
+              { label: 'huggingface/open-r1', url: 'https://github.com/huggingface/open-r1' },
+              { label: 'TRL — GRPO trainer', url: 'https://huggingface.co/docs/trl/en/grpo_trainer' },
+            ],
+          },
+        ],
+        extras: [
+          {
+            label: 'Adjacent ideas',
+            links: [
+              { label: 'Tree of Thoughts — arXiv:2305.10601', url: 'https://arxiv.org/abs/2305.10601' },
+              { label: 'Self-Consistency — arXiv:2203.11171', url: 'https://arxiv.org/abs/2203.11171' },
+              {
+                label: 'Scaling Test-Time Compute — arXiv:2408.03314',
+                url: 'https://arxiv.org/abs/2408.03314',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-2',
+        title: '7.2 State Space Models & Long-Context Architectures',
+        hours: '~15–20h',
+        why:
+          'Attention is O(n²) and still the bottleneck. Mamba/Mamba-2 and linear-attention hybrids are the serious architectural challengers; every frontier lab ships a long-context variant.',
+        focus:
+          'Read Mamba and Mamba-2 end-to-end; compare with sliding-window + attention-sink tricks (StreamingLLM) and ring/context parallelism used in production.',
+        primary: [
+          { label: 'Mamba — arXiv:2312.00752', url: 'https://arxiv.org/abs/2312.00752' },
+          { label: 'Mamba-2 — arXiv:2405.21060', url: 'https://arxiv.org/abs/2405.21060' },
+          {
+            label: 'Sasha Rush — The Annotated S4',
+            url: 'https://srush.github.io/annotated-s4/',
+          },
+          { label: 'StreamingLLM — arXiv:2309.17453', url: 'https://arxiv.org/abs/2309.17453' },
+        ],
+        fallbacks: [
+          {
+            label: 'Long-context training + inference',
+            links: [
+              { label: 'RingAttention — arXiv:2310.01889', url: 'https://arxiv.org/abs/2310.01889' },
+              { label: 'YaRN — arXiv:2309.00071', url: 'https://arxiv.org/abs/2309.00071' },
+              { label: 'LongRoPE — arXiv:2402.13753', url: 'https://arxiv.org/abs/2402.13753' },
+            ],
+          },
+          {
+            label: 'Linear-attention family',
+            links: [
+              { label: 'RWKV-7 — arXiv:2503.14456', url: 'https://arxiv.org/abs/2503.14456' },
+              { label: 'Hyena — arXiv:2302.10866', url: 'https://arxiv.org/abs/2302.10866' },
+              {
+                label: 'Maarten Grootendorst — Visual Guide to Mamba',
+                url: 'https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mamba-and-state',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-3',
+        title: '7.3 Mixture of Experts (Deep Dive)',
+        hours: '~12–15h',
+        why:
+          'Every competitive open model since Mixtral is MoE. Routing, load balancing, expert parallelism and MLA (DeepSeek-V3) are what separate a research toy from a shippable 400B+ model.',
+        focus:
+          'Switch Transformer → Mixtral → DeepSeekMoE → DeepSeek-V3 (MLA + aux-loss-free balancing). Pair with MegaBlocks / GShard for the kernel view.',
+        primary: [
+          { label: 'Switch Transformer — arXiv:2101.03961', url: 'https://arxiv.org/abs/2101.03961' },
+          { label: 'Mixtral of Experts — arXiv:2401.04088', url: 'https://arxiv.org/abs/2401.04088' },
+          { label: 'DeepSeekMoE — arXiv:2401.06066', url: 'https://arxiv.org/abs/2401.06066' },
+          { label: 'DeepSeek-V3 — arXiv:2412.19437', url: 'https://arxiv.org/abs/2412.19437' },
+        ],
+        fallbacks: [
+          {
+            label: 'Systems view',
+            links: [
+              { label: 'GShard — arXiv:2006.16668', url: 'https://arxiv.org/abs/2006.16668' },
+              { label: 'MegaBlocks — arXiv:2211.15841', url: 'https://arxiv.org/abs/2211.15841' },
+              {
+                label: 'HF — Mixture of Experts Explained',
+                url: 'https://huggingface.co/blog/moe',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-4',
+        title: '7.4 Mechanistic Interpretability',
+        hours: '~15–20h',
+        why:
+          "Interpretability is the only credible path to safety and to understanding why a model fails. Anthropic's SAE work is the most replicated interpretability result since 2023.",
+        focus:
+          "Neel Nanda's 200 concrete problems as an onramp; then Anthropic's SAE + feature-circuits papers; hands-on with TransformerLens on a 1–2 layer model.",
+        primary: [
+          {
+            label: 'Neel Nanda — 200 Concrete Open Problems in Mechanistic Interpretability',
+            url: 'https://www.alignmentforum.org/posts/LbrPTJ4fmABEdEnLf/200-concrete-open-problems-in-mechanistic-interpretability',
+          },
+          {
+            label: 'Anthropic — Towards Monosemanticity (SAEs)',
+            url: 'https://transformer-circuits.pub/2023/monosemantic-features',
+          },
+          {
+            label: 'Anthropic — Scaling Monosemanticity (Claude 3 Sonnet)',
+            url: 'https://transformer-circuits.pub/2024/scaling-monosemanticity/',
+          },
+          {
+            label: 'TransformerLens docs',
+            url: 'https://transformerlensorg.github.io/TransformerLens/',
+          },
+        ],
+        fallbacks: [
+          {
+            label: 'Foundations',
+            links: [
+              {
+                label: 'A Mathematical Framework for Transformer Circuits',
+                url: 'https://transformer-circuits.pub/2021/framework/index.html',
+              },
+              {
+                label: 'Anthropic — Toy Models of Superposition',
+                url: 'https://transformer-circuits.pub/2022/toy_model/index.html',
+              },
+              {
+                label: 'ARENA 3.0 curriculum',
+                url: 'https://arena3-chapter1-transformer-interp.streamlit.app/',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-5',
+        title: '7.5 Synthetic Data & Data Curation',
+        hours: '~10–15h',
+        why:
+          'Data quality beats architecture tweaks. DoReMi / data-mixing laws, FineWeb, Cosmopedia and phi-series show that curation is now a first-class frontier-lab discipline.',
+        focus:
+          'Read FineWeb and Cosmopedia blogs for the modern recipe; then DoReMi and data-mixing-laws for the theory behind proxy-model reweighting.',
+        primary: [
+          {
+            label: 'HF — FineWeb: 15T tokens of the finest web data',
+            url: 'https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1',
+          },
+          {
+            label: 'HF — Cosmopedia: how to create large-scale synthetic data',
+            url: 'https://huggingface.co/blog/cosmopedia',
+          },
+          { label: 'DoReMi — arXiv:2305.10429', url: 'https://arxiv.org/abs/2305.10429' },
+          { label: 'Textbooks Are All You Need (phi-1) — arXiv:2306.11644', url: 'https://arxiv.org/abs/2306.11644' },
+        ],
+        fallbacks: [
+          {
+            label: 'Deeper reading',
+            links: [
+              { label: 'Data Mixing Laws — arXiv:2403.16952', url: 'https://arxiv.org/abs/2403.16952' },
+              {
+                label: 'Best Practices and Lessons Learned on Synthetic Data — arXiv:2404.07503',
+                url: 'https://arxiv.org/abs/2404.07503',
+              },
+              {
+                label: 'Self-Instruct — arXiv:2212.10560',
+                url: 'https://arxiv.org/abs/2212.10560',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-6',
+        title: '7.6 Speculative Decoding & Structured Generation',
+        hours: '~8–12h',
+        why:
+          'Two orthogonal wins over vanilla decode loops: speculative decoding (2–4× throughput at equal quality) and constrained/structured decoding (JSON/schema-valid output without post-hoc parsing).',
+        focus:
+          "Leviathan's original spec decoding → Medusa → EAGLE-2 for the research arc; Outlines + XGrammar for the structured-output production toolchain.",
+        primary: [
+          {
+            label: 'Fast Inference via Speculative Decoding — arXiv:2211.17192',
+            url: 'https://arxiv.org/abs/2211.17192',
+          },
+          { label: 'Medusa — arXiv:2401.10774', url: 'https://arxiv.org/abs/2401.10774' },
+          { label: 'EAGLE-2 — arXiv:2406.16858', url: 'https://arxiv.org/abs/2406.16858' },
+          { label: 'dottxt-ai/outlines', url: 'https://github.com/dottxt-ai/outlines' },
+        ],
+        fallbacks: [
+          {
+            label: 'Structured decoding',
+            links: [
+              { label: 'mlc-ai/xgrammar', url: 'https://github.com/mlc-ai/xgrammar' },
+              {
+                label: 'Efficient Guided Generation — arXiv:2307.09702',
+                url: 'https://arxiv.org/abs/2307.09702',
+              },
+              {
+                label: 'guidance-ai/guidance',
+                url: 'https://github.com/guidance-ai/guidance',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-7',
+        title: '7.7 AI Safety, Red-Teaming & Adversarial Robustness',
+        hours: '~10–12h',
+        why:
+          'Every production LLM ships with a safety layer. Understanding jailbreaks, prompt injection and evaluation harnesses is baseline competency — and the fastest-growing hiring area at frontier labs.',
+        focus:
+          "Lilian Weng's adversarial-attacks survey → Simon Willison on prompt injection → GCG + HarmBench for the empirical red-team baseline.",
+        primary: [
+          {
+            label: 'Lilian Weng — Adversarial Attacks on LLMs',
+            url: 'https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm/',
+          },
+          {
+            label: 'Simon Willison — Prompt injection archive',
+            url: 'https://simonwillison.net/tags/prompt-injection/',
+          },
+          { label: 'GCG (Universal attacks) — arXiv:2307.15043', url: 'https://arxiv.org/abs/2307.15043' },
+          { label: 'HarmBench — arXiv:2402.04249', url: 'https://arxiv.org/abs/2402.04249' },
+        ],
+        fallbacks: [
+          {
+            label: 'Policy + defense',
+            links: [
+              {
+                label: 'Anthropic Responsible Scaling Policy',
+                url: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy',
+              },
+              {
+                label: 'OpenAI Preparedness framework',
+                url: 'https://openai.com/index/updating-our-preparedness-framework/',
+              },
+              {
+                label: 'NIST AI Risk Management Framework',
+                url: 'https://www.nist.gov/itl/ai-risk-management-framework',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-8',
+        title: '7.8 Coding Agents & SWE Benchmarks',
+        hours: '~10–15h',
+        why:
+          'Coding agents are the most commercially validated agent vertical (Cursor, Claude Code, Devin). SWE-bench is the de-facto benchmark and the basis of most 2025 agent papers.',
+        focus:
+          'SWE-bench & SWE-bench Verified setup → SWE-agent / OpenHands reference harnesses → Anthropic Building Effective Agents for the minimal-scaffolding philosophy.',
+        primary: [
+          { label: 'SWE-bench — arXiv:2310.06770', url: 'https://arxiv.org/abs/2310.06770' },
+          { label: 'SWE-bench leaderboard & docs', url: 'https://www.swebench.com' },
+          { label: 'SWE-agent — arXiv:2405.15793', url: 'https://arxiv.org/abs/2405.15793' },
+          { label: 'All-Hands-AI/OpenHands', url: 'https://github.com/All-Hands-AI/OpenHands' },
+        ],
+        fallbacks: [
+          {
+            label: 'Philosophy + surveys',
+            links: [
+              {
+                label: 'Anthropic — Building Effective Agents',
+                url: 'https://www.anthropic.com/engineering/building-effective-agents',
+              },
+              { label: 'Agentless — arXiv:2407.01489', url: 'https://arxiv.org/abs/2407.01489' },
+              { label: 'Aider LLM leaderboard', url: 'https://aider.chat/docs/leaderboards/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-9',
+        title: '7.9 Modern RL Post-Training Zoo',
+        hours: '~12–15h',
+        why:
+          'Post-training is where frontier differentiation now lives. DPO is already mainstream; GRPO (DeepSeek), RLOO, KTO, IPO, ORPO and process reward models are the 2025 meta. DeepSeek R1 + o1-style training are direct applications.',
+        concept:
+          'Preference optimization (DPO/IPO/KTO/ORPO) vs online RL (PPO/RLOO/GRPO/RLVR) vs outcome + process reward models. Reward hacking, verifier-guided training, self-play.',
+        focus:
+          'Read DPO → GRPO → RLOO → "Let\'s Verify Step by Step", then work through the DeepSeek R1 paper with TRL / OpenRLHF as the reference implementation.',
+        primary: [
+          { label: 'GRPO — DeepSeekMath arXiv:2402.03300', url: 'https://arxiv.org/abs/2402.03300' },
+          { label: 'DeepSeek R1 — arXiv:2501.12948', url: 'https://arxiv.org/abs/2501.12948' },
+          { label: "Let's Verify Step by Step — arXiv:2305.20050", url: 'https://arxiv.org/abs/2305.20050' },
+          { label: 'OpenAI — Learning to reason with LLMs', url: 'https://openai.com/index/learning-to-reason-with-llms/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Preference-optimization variants',
+            links: [
+              { label: 'RLOO — arXiv:2402.14740', url: 'https://arxiv.org/abs/2402.14740' },
+              { label: 'KTO — arXiv:2402.01306', url: 'https://arxiv.org/abs/2402.01306' },
+              { label: 'IPO — arXiv:2310.12036', url: 'https://arxiv.org/abs/2310.12036' },
+              { label: 'ORPO — arXiv:2403.07691', url: 'https://arxiv.org/abs/2403.07691' },
+              { label: 'RLAIF — arXiv:2309.00267', url: 'https://arxiv.org/abs/2309.00267' },
+            ],
+          },
+          {
+            label: 'Tooling & surveys',
+            links: [
+              { label: 'huggingface/trl', url: 'https://github.com/huggingface/trl' },
+              { label: 'OpenRLHF/OpenRLHF', url: 'https://github.com/OpenRLHF/OpenRLHF' },
+              { label: 'Nathan Lambert — RLHF book', url: 'https://rlhfbook.com/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-10',
+        title: '7.10 Robotics & Vision-Language-Action Models',
+        hours: '~12–15h',
+        why:
+          'Physical Intelligence π-0/π-0.5, Figure 02 + Helix, Tesla Optimus, OpenVLA and RT-2 marked the shift to generalist robot foundation models. Robotics is where frontier labs are hiring aggressively in 2026 and where the same RL/multimodal tooling now applies.',
+        concept:
+          'VLA = Vision–Language–Action policies. Tokenized action spaces, co-training with internet + robot data, diffusion / flow policies, teleoperation datasets (ALOHA, DROID).',
+        focus:
+          'Read π-0 + OpenVLA + RT-2. Skim Helix and Mobile ALOHA. Clone LeRobot and run one pretrained policy in sim.',
+        primary: [
+          { label: 'π-0 — arXiv:2410.24164', url: 'https://arxiv.org/abs/2410.24164' },
+          { label: 'π-0.5 — Physical Intelligence', url: 'https://www.physicalintelligence.company/blog/pi05' },
+          { label: 'OpenVLA — arXiv:2406.09246', url: 'https://arxiv.org/abs/2406.09246' },
+          { label: 'RT-2 — arXiv:2307.15818', url: 'https://arxiv.org/abs/2307.15818' },
+          { label: 'huggingface/lerobot', url: 'https://github.com/huggingface/lerobot' },
+        ],
+        fallbacks: [
+          {
+            label: 'Humanoids & dexterous manipulation',
+            links: [
+              { label: 'Figure — Helix', url: 'https://www.figure.ai/news/helix' },
+              { label: 'Mobile ALOHA — arXiv:2401.02117', url: 'https://arxiv.org/abs/2401.02117' },
+              { label: 'DROID dataset — arXiv:2403.12945', url: 'https://arxiv.org/abs/2403.12945' },
+              { label: 'SmolVLA (HF)', url: 'https://huggingface.co/blog/smolvla' },
+            ],
+          },
+          {
+            label: 'Orientation & context',
+            links: [
+              { label: 'Chelsea Finn — lab page', url: 'https://ai.stanford.edu/~cbfinn/' },
+              { label: 'Sergey Levine — deep RL & robotics', url: 'https://rail.eecs.berkeley.edu/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-11',
+        title: '7.11 Speech & Audio Models',
+        hours: '~8–10h',
+        why:
+          'Real-time voice (GPT-4o, Sesame, Moshi) and production ASR/TTS are now core to every assistant product. Audio tokenizers (Encodec, SoundStream) are also the template for multimodal tokenization more broadly.',
+        focus:
+          'Read Whisper → Encodec / SoundStream → Moshi. Skim Seed-TTS and Sesame. Run Whisper v3 turbo locally on an audio file as a sanity check.',
+        primary: [
+          { label: 'Whisper — arXiv:2212.04356', url: 'https://arxiv.org/abs/2212.04356' },
+          { label: 'openai/whisper', url: 'https://github.com/openai/whisper' },
+          { label: 'Moshi — arXiv:2410.00037', url: 'https://arxiv.org/abs/2410.00037' },
+          { label: 'OpenAI — GPT-4o announcement', url: 'https://openai.com/index/hello-gpt-4o/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Audio tokenizers & TTS',
+            links: [
+              { label: 'Encodec — arXiv:2210.13438', url: 'https://arxiv.org/abs/2210.13438' },
+              { label: 'SoundStream — arXiv:2107.03312', url: 'https://arxiv.org/abs/2107.03312' },
+              { label: 'Seed-TTS — arXiv:2406.02430', url: 'https://arxiv.org/abs/2406.02430' },
+              { label: 'huggingface/parler-tts', url: 'https://github.com/huggingface/parler-tts' },
+            ],
+          },
+          {
+            label: 'Real-time voice systems',
+            links: [
+              { label: 'Sesame — Crossing the Uncanny Valley of Voice', url: 'https://www.sesame.com/research/crossing_the_uncanny_valley_of_voice' },
+              { label: 'ElevenLabs v3 alpha', url: 'https://elevenlabs.io/v3' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-12',
+        title: '7.12 World Models & Video Generation',
+        hours: '~8–10h',
+        why:
+          'Sora, Veo 3, Genie 2 and V-JEPA 2 reframe video generation as world simulation — the training substrate for embodied agents and robotics. Diffusion transformers (DiT) are the shared backbone of modern video + image systems.',
+        focus:
+          'Read Sora tech note + DiT + V-JEPA 2, then compare positioning of Veo 3, Genie 2 and Movie Gen.',
+        primary: [
+          { label: 'Sora — video models as world simulators', url: 'https://openai.com/index/video-generation-models-as-world-simulators/' },
+          { label: 'Veo 3 (DeepMind)', url: 'https://deepmind.google/technologies/veo/veo-3/' },
+          { label: 'Genie 2 (DeepMind)', url: 'https://deepmind.google/discover/blog/genie-2-a-large-scale-foundation-world-model/' },
+          { label: 'V-JEPA 2 (Meta)', url: 'https://ai.meta.com/blog/v-jepa-2-world-model-benchmarks/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Foundational video / image gen',
+            links: [
+              { label: 'DiT — arXiv:2212.09748', url: 'https://arxiv.org/abs/2212.09748' },
+              { label: 'Movie Gen (Meta)', url: 'https://ai.meta.com/research/movie-gen/' },
+              { label: 'Stable Video Diffusion — arXiv:2311.15127', url: 'https://arxiv.org/abs/2311.15127' },
+            ],
+          },
+          {
+            label: 'World-model research perspective',
+            links: [
+              { label: 'LeCun — A Path Towards Autonomous Machine Intelligence', url: 'https://openreview.net/forum?id=BZ5a1r-kVsf' },
+              { label: 'SIMA (DeepMind)', url: 'https://deepmind.google/discover/blog/sima-generalist-ai-agent-for-3d-virtual-environments/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-13',
+        title: '7.13 Benchmarks & Eval Methodology',
+        hours: '~6–8h',
+        why:
+          'Reading the leaderboard wrong loses careers. Know the 2026 canonical benches (AIME, GPQA-Diamond, SWE-Bench Verified, ARC-AGI-2, MMLU-Pro, Terminal-Bench, Chatbot Arena) and the contamination / Goodhart failure modes.',
+        focus:
+          'Skim each primary benchmark paper/page. Read the contamination survey. Understand how Chatbot Arena differs from static benches.',
+        primary: [
+          { label: 'MMLU-Pro — arXiv:2406.01574', url: 'https://arxiv.org/abs/2406.01574' },
+          { label: 'GPQA — arXiv:2311.12022', url: 'https://arxiv.org/abs/2311.12022' },
+          { label: 'SWE-Bench Verified (OpenAI)', url: 'https://openai.com/index/introducing-swe-bench-verified/' },
+          { label: 'ARC Prize / ARC-AGI-2', url: 'https://arcprize.org/' },
+          { label: 'Chatbot Arena — arXiv:2403.04132', url: 'https://arxiv.org/abs/2403.04132' },
+        ],
+        fallbacks: [
+          {
+            label: 'Coding / tool-use benches',
+            links: [
+              { label: 'EvalPlus / HumanEval+ — arXiv:2305.01210', url: 'https://arxiv.org/abs/2305.01210' },
+              { label: 'Terminal-Bench', url: 'https://github.com/laude-institute/terminal-bench' },
+              { label: 'LiveCodeBench', url: 'https://livecodebench.github.io/' },
+              { label: 'BFCL (function calling)', url: 'https://gorilla.cs.berkeley.edu/leaderboard.html' },
+            ],
+          },
+          {
+            label: 'Methodology',
+            links: [
+              { label: 'Stanford HELM', url: 'https://crfm.stanford.edu/helm/' },
+              { label: "Don't Make Your LLM a Benchmark Cheater — arXiv:2311.01964", url: 'https://arxiv.org/abs/2311.01964' },
+              { label: 'GPT-4 contamination — arXiv:2311.04850', url: 'https://arxiv.org/abs/2311.04850' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-14',
+        title: '7.14 Model Merging',
+        hours: '~4–6h',
+        why:
+          'SLERP / TIES / DARE / Model Soups are now standard in the open-model workflow — Mixtral, Qwen, Llama fine-tunes are routinely merged before shipping. Low-cost, no-training technique with real wins on the leaderboard.',
+        focus:
+          'Read Model Soups → TIES → DARE → Sakana evolutionary merging. Merge two Llama-3 fine-tunes with MergeKit and eval on a benchmark.',
+        primary: [
+          { label: 'Model Soups — arXiv:2203.05482', url: 'https://arxiv.org/abs/2203.05482' },
+          { label: 'TIES-Merging — arXiv:2306.01708', url: 'https://arxiv.org/abs/2306.01708' },
+          { label: 'DARE — arXiv:2311.03099', url: 'https://arxiv.org/abs/2311.03099' },
+          { label: 'arcee-ai/mergekit', url: 'https://github.com/arcee-ai/mergekit' },
+        ],
+        fallbacks: [
+          {
+            label: 'Advanced merging & tutorials',
+            links: [
+              { label: 'Sakana — Evolutionary Model Merging arXiv:2403.13187', url: 'https://arxiv.org/abs/2403.13187' },
+              { label: 'Maxime Labonne — Merge LLMs (HF blog)', url: 'https://huggingface.co/blog/mlabonne/merge-models' },
+              { label: 'SLERP reference', url: 'https://en.wikipedia.org/wiki/Slerp' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-15',
+        title: '7.15 Privacy, Safety Institutes & Confidential Compute',
+        hours: '~6–8h',
+        why:
+          'Complements Track 8.10 (enterprise compliance). This is the research-facing side: differential privacy, federated learning, confidential compute (H100 TEE, Apple PCC), and the US/UK safety institutes that now gate frontier model release.',
+        focus:
+          'Read DP-SGD, McMahan federated learning, Apple Private Cloud Compute write-up, and skim AISI + UK AISI mandates.',
+        primary: [
+          { label: 'DP-SGD — arXiv:1607.00133', url: 'https://arxiv.org/abs/1607.00133' },
+          { label: 'Federated Averaging (McMahan) — arXiv:1602.05629', url: 'https://arxiv.org/abs/1602.05629' },
+          { label: 'Apple — Private Cloud Compute', url: 'https://security.apple.com/blog/private-cloud-compute/' },
+          { label: 'NVIDIA Confidential Computing (H100)', url: 'https://www.nvidia.com/en-us/data-center/solutions/confidential-computing/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Safety institutes & governance',
+            links: [
+              { label: 'US AI Safety Institute (AISI)', url: 'https://www.nist.gov/aisi' },
+              { label: 'UK AI Safety Institute', url: 'https://www.aisi.gov.uk/' },
+              { label: 'EU AI Act — overview', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
+            ],
+          },
+          {
+            label: 'Foundations',
+            links: [
+              { label: 'Dwork & Roth — Algorithmic Foundations of DP', url: 'https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf' },
+              { label: 'Google — Federated Learning overview', url: 'https://federated.withgoogle.com/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-16',
+        title: '7.16 Reward Modeling',
+        hours: '~8–10h',
+        why:
+          'Reward modeling is half of RLHF/GRPO — and the part that most often secretly fails. Bad rewards silently reward-hack. Every frontier RL post-training pipeline has a reward-model team.',
+        concept:
+          'Bradley–Terry pairwise preference models, pointwise reward models, reward-model evaluation (RewardBench), process reward models (PRMs), verifier-as-reward, reward hacking, calibration.',
+        focus:
+          'Read InstructGPT RM section + Helpful/Harmless RM + RewardBench. Train a small RM on UltraFeedback; measure it on RewardBench.',
+        primary: [
+          { label: 'InstructGPT — arXiv:2203.02155', url: 'https://arxiv.org/abs/2203.02155' },
+          { label: 'Anthropic HH-RLHF — arXiv:2204.05862', url: 'https://arxiv.org/abs/2204.05862' },
+          { label: 'RewardBench — arXiv:2403.13787', url: 'https://arxiv.org/abs/2403.13787' },
+          { label: "Let's Verify Step by Step (PRMs) — arXiv:2305.20050", url: 'https://arxiv.org/abs/2305.20050' },
+        ],
+        fallbacks: [
+          {
+            label: 'Reward hacking & failure modes',
+            links: [
+              { label: 'Scaling Laws for Reward Model Overoptimization — arXiv:2210.10760', url: 'https://arxiv.org/abs/2210.10760' },
+              { label: 'Goodhart taxonomy — arXiv:1803.04585', url: 'https://arxiv.org/abs/1803.04585' },
+              { label: 'Anthropic — Reward hacking behaviors in LMs', url: 'https://www.anthropic.com/research/specification-gaming' },
+            ],
+          },
+          {
+            label: 'Datasets & tooling',
+            links: [
+              { label: 'UltraFeedback — arXiv:2310.01377', url: 'https://arxiv.org/abs/2310.01377' },
+              { label: 'HH-RLHF dataset', url: 'https://huggingface.co/datasets/Anthropic/hh-rlhf' },
+              { label: 'allenai/reward-bench', url: 'https://github.com/allenai/reward-bench' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-17',
+        title: '7.17 Red-Teaming, Capability Evals & Human Eval Design',
+        hours: '~8–10h',
+        why:
+          'Shipping a frontier model now requires dangerous-capability evaluations (CBRN, cyber, autonomy, persuasion) under an RSP/Preparedness regime. Applied teams also need rigorous human eval design — pairwise, Elo, statistical CIs — not just leaderboard screenshots.',
+        concept:
+          'Adversarial / automated red-teaming, dangerous capability evals, pairwise human eval + Elo/Bradley-Terry, confidence intervals & McNemar on benchmarks, jailbreak evaluation.',
+        focus:
+          'Read Anthropic RSP + OpenAI Preparedness + Inspect. Run Inspect on a small model for a refusal eval. Read Chatbot Arena paper + Tatsu stats primer for eval rigor.',
+        primary: [
+          { label: 'UK AISI — Inspect framework', url: 'https://inspect.ai-safety-institute.org.uk/' },
+          { label: 'Anthropic — Responsible Scaling Policy', url: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy' },
+          { label: 'OpenAI — Preparedness framework (updated)', url: 'https://openai.com/index/updating-our-preparedness-framework/' },
+          { label: 'Chatbot Arena — arXiv:2403.04132', url: 'https://arxiv.org/abs/2403.04132' },
+        ],
+        fallbacks: [
+          {
+            label: 'Red-teaming techniques',
+            links: [
+              { label: 'Red Teaming LMs — arXiv:2202.03286', url: 'https://arxiv.org/abs/2202.03286' },
+              { label: 'HarmBench — arXiv:2402.04249', url: 'https://arxiv.org/abs/2402.04249' },
+              { label: 'JailbreakBench', url: 'https://jailbreakbench.github.io/' },
+              { label: 'PAIR — arXiv:2310.08419', url: 'https://arxiv.org/abs/2310.08419' },
+            ],
+          },
+          {
+            label: 'Dangerous capability / autonomy evals',
+            links: [
+              { label: 'METR — autonomy evals', url: 'https://metr.org/blog/' },
+              { label: 'Model evaluations for extreme risks — arXiv:2305.15324', url: 'https://arxiv.org/abs/2305.15324' },
+              { label: 'DeepMind — dangerous capability evals', url: 'https://deepmind.google/discover/blog/evaluating-frontier-models-for-dangerous-capabilities/' },
+            ],
+          },
+          {
+            label: 'Human eval methodology & statistics',
+            links: [
+              { label: "Tatsu Hashimoto — LLM eval statistics", url: 'https://crfm.stanford.edu/2024/05/01/helm-mmlu.html' },
+              { label: 'Evaluating LLMs is a minefield (tutorial)', url: 'https://www.cs.princeton.edu/~arvindn/talks/evaluating_llms_minefield/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-18',
+        title: '7.18 AI for Science (AlphaFold, GNoME, Protein & Materials)',
+        hours: '~10–12h',
+        why:
+          'Nobel-prize-level frontier: AlphaFold-2 / 3, RFdiffusion, ESM, GNoME, MatterGen, Evo. DeepMind, Isomorphic, Anthropic, xAI, and Meta all have active AI-for-science tracks — and these are the clearest "real-world impact" wins in ML right now.',
+        concept:
+          'Structure prediction (MSA + evoformer), equivariant diffusion for structure generation (RFdiffusion, AlphaFold 3), protein LMs (ESM-2/3), materials generation (GNoME, MatterGen), genomic LMs (Evo), inverse folding (ProteinMPNN).',
+        focus:
+          'Read AlphaFold 2 Nature paper + AlphaFold 3 Nature paper + RFdiffusion + GNoME. Fold a small protein with ColabFold; run ProteinMPNN inverse-folding on a PDB.',
+        primary: [
+          { label: 'AlphaFold 2 — Nature 2021', url: 'https://www.nature.com/articles/s41586-021-03819-2' },
+          { label: 'AlphaFold 3 — Nature 2024', url: 'https://www.nature.com/articles/s41586-024-07487-w' },
+          { label: 'RFdiffusion — Nature 2023', url: 'https://www.nature.com/articles/s41586-023-06415-8' },
+          { label: 'GNoME (DeepMind) — Nature 2023', url: 'https://www.nature.com/articles/s41586-023-06735-9' },
+        ],
+        fallbacks: [
+          {
+            label: 'Protein models & tools',
+            links: [
+              { label: 'ESM-2 — Lin et al. Science 2023', url: 'https://www.science.org/doi/10.1126/science.ade2574' },
+              { label: 'ProteinMPNN (inverse folding)', url: 'https://www.science.org/doi/10.1126/science.add2187' },
+              { label: 'ColabFold', url: 'https://github.com/sokrypton/ColabFold' },
+              { label: 'Boltz-1 (open AF3-style)', url: 'https://github.com/jwohlwend/boltz' },
+            ],
+          },
+          {
+            label: 'Materials & genomics',
+            links: [
+              { label: 'MatterGen — arXiv:2312.03687', url: 'https://arxiv.org/abs/2312.03687' },
+              { label: 'MACE (equivariant MLP for MD)', url: 'https://arxiv.org/abs/2206.07697' },
+              { label: 'Evo (genomic LM) — Science 2024', url: 'https://www.science.org/doi/10.1126/science.ado9336' },
+              { label: 'OpenFold', url: 'https://github.com/aqlaboratory/openfold' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-19',
+        title: '7.19 Continual Learning & Test-Time Training',
+        hours: '~6–8h',
+        why:
+          'Frontier models are expensive to retrain, so "update without forgetting" and "adapt at inference" are active research areas: TTT-style adaptation, in-context RL, model editing (ROME/MEMIT), and continual pretraining. Essential for domain-adapted deployments and for long-context work.',
+        concept:
+          'Catastrophic forgetting, elastic weight consolidation, replay, continual pretraining, in-context / test-time adaptation, TTT layers (Sun et al. 2024), model editing (ROME, MEMIT), knowledge localization.',
+        focus:
+          'Read TTT layers + ROME + continual pretraining survey. Try a ROME edit on a small GPT; measure locality vs. generalization.',
+        primary: [
+          { label: 'Test-Time Training Layers — arXiv:2407.04620', url: 'https://arxiv.org/abs/2407.04620' },
+          { label: 'ROME — Locating & Editing Factual Associations (arXiv:2202.05262)', url: 'https://arxiv.org/abs/2202.05262' },
+          { label: 'MEMIT — arXiv:2210.07229', url: 'https://arxiv.org/abs/2210.07229' },
+          { label: 'Continual Pretraining of LLMs — arXiv:2308.08747', url: 'https://arxiv.org/abs/2308.08747' },
+        ],
+        fallbacks: [
+          {
+            label: 'Classical continual learning',
+            links: [
+              { label: 'EWC — Kirkpatrick et al. (arXiv:1612.00796)', url: 'https://arxiv.org/abs/1612.00796' },
+              { label: 'Continual learning survey — arXiv:2302.00487', url: 'https://arxiv.org/abs/2302.00487' },
+              { label: 'Avalanche library', url: 'https://avalanche.continualai.org/' },
+            ],
+          },
+          {
+            label: 'Test-time adaptation & editing',
+            links: [
+              { label: 'TENT — arXiv:2006.10726', url: 'https://arxiv.org/abs/2006.10726' },
+              { label: 'Model editing survey — arXiv:2305.13172', url: 'https://arxiv.org/abs/2305.13172' },
+              { label: 'MEND — arXiv:2110.11309', url: 'https://arxiv.org/abs/2110.11309' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'track-8',
+    title: 'Track 8: Forward Deployed Engineer (Frontier Labs)',
+    blurb:
+      "Skills for FDE roles at Anthropic / OpenAI / Cohere / Mistral / xAI: customer-facing engineers who scope a use case, prototype with the lab's models, and land a production deployment. Heavy on integration, evals and reliability rather than training.",
+    topics: [
+      {
+        id: '8-1',
+        title: '8.1 Role, Scoping & Rapid Prototyping',
+        hours: '~8–10h',
+        why:
+          'FDE is a new archetype. Read the job descriptions, Anthropic/OpenAI engineering essays, and the Applied-LLMs playbook so you understand the rhythm: scope → demo → eval → deploy → iterate.',
+        focus:
+          'Skim 2–3 live FDE postings first; then read Applied-LLMs end-to-end; finish with Anthropic "Building Effective Agents" for the minimal-scaffolding default.',
+        primary: [
+          {
+            label: 'Anthropic — Applied AI (FDE) job family',
+            url: 'https://www.anthropic.com/careers#applied-ai',
+          },
+          { label: 'applied-llms.org (Husain/Frye/Yan/Bensal/Shankar)', url: 'https://applied-llms.org' },
+          {
+            label: 'Anthropic — Building Effective Agents',
+            url: 'https://www.anthropic.com/engineering/building-effective-agents',
+          },
+          { label: 'Eugene Yan — llm-patterns', url: 'https://eugeneyan.com/writing/llm-patterns/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Context for the role',
+            links: [
+              { label: 'OpenAI — Solutions Engineering roles', url: 'https://openai.com/careers/search/?teams=Engineering' },
+              {
+                label: 'Chip Huyen — Building a GenAI platform',
+                url: 'https://huyenchip.com/2024/07/25/genai-platform.html',
+              },
+              { label: 'Simon Willison — Things we learned about LLMs in 2024', url: 'https://simonwillison.net/2024/Dec/31/llms-in-2024/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-2',
+        title: '8.2 Production API Integration (OpenAI / Anthropic / open models)',
+        hours: '~10–15h',
+        focus:
+          'Know the three SDK surfaces cold: Anthropic Messages + tool_use, OpenAI Responses/Assistants + function calling, and a self-hosted vLLM OpenAI-compatible server. Build the same client twice to internalize the differences.',
+        primary: [
+          { label: 'Anthropic API — Overview', url: 'https://docs.anthropic.com/en/api/overview' },
+          { label: 'Anthropic — Tool use (function calling)', url: 'https://docs.anthropic.com/en/docs/build-with-claude/tool-use' },
+          { label: 'OpenAI — Function calling', url: 'https://platform.openai.com/docs/guides/function-calling' },
+          { label: 'OpenAI — Responses API', url: 'https://platform.openai.com/docs/guides/responses' },
+          { label: 'vLLM — OpenAI-compatible server', url: 'https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html' },
+        ],
+        fallbacks: [
+          {
+            label: 'Cookbooks',
+            links: [
+              { label: 'openai/openai-cookbook', url: 'https://github.com/openai/openai-cookbook' },
+              { label: 'anthropics/anthropic-cookbook', url: 'https://github.com/anthropics/anthropic-cookbook' },
+              { label: 'cohere-ai/notebooks', url: 'https://github.com/cohere-ai/notebooks' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-3',
+        title: '8.3 Prompt & Context Engineering in Production',
+        hours: '~8–10h',
+        focus:
+          'Anthropic prompt library → caching and long-context patterns → extended thinking controls → then Willison on prompt injection so you reason defensively from day one.',
+        primary: [
+          { label: 'Anthropic — Prompt engineering overview', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
+          { label: 'Anthropic — Prompt caching', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching' },
+          { label: 'Anthropic — Extended thinking', url: 'https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking' },
+          { label: 'OpenAI — Prompt engineering guide', url: 'https://platform.openai.com/docs/guides/prompt-engineering' },
+        ],
+        fallbacks: [
+          {
+            label: 'Patterns + defense',
+            links: [
+              { label: 'Simon Willison — prompt injection archive', url: 'https://simonwillison.net/tags/prompt-injection/' },
+              { label: 'Lilian Weng — Prompt Engineering', url: 'https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/' },
+              { label: 'The Prompt Report — arXiv:2406.06608', url: 'https://arxiv.org/abs/2406.06608' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-4',
+        title: '8.4 Agent Orchestration, Tools & MCP',
+        hours: '~10–15h',
+        focus:
+          'Start with Anthropic Building Effective Agents for philosophy; implement an MCP server once; then compare at least two orchestrators (OpenAI Agents SDK + LangGraph or PydanticAI) so you can defend a framework choice.',
+        primary: [
+          { label: 'Model Context Protocol — modelcontextprotocol.io', url: 'https://modelcontextprotocol.io' },
+          { label: 'Anthropic — MCP introduction', url: 'https://docs.anthropic.com/en/docs/agents-and-tools/mcp' },
+          { label: 'OpenAI — Agents SDK', url: 'https://openai.github.io/openai-agents-python/' },
+          { label: 'LangGraph — docs', url: 'https://langchain-ai.github.io/langgraph/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Alternative frameworks',
+            links: [
+              { label: 'PydanticAI', url: 'https://ai.pydantic.dev' },
+              { label: 'CrewAI', url: 'https://docs.crewai.com' },
+              { label: 'HF smolagents', url: 'https://huggingface.co/docs/smolagents' },
+            ],
+          },
+          {
+            label: 'Deeper reading',
+            links: [
+              {
+                label: 'Lilian Weng — LLM Powered Autonomous Agents',
+                url: 'https://lilianweng.github.io/posts/2023-06-23-agent/',
+              },
+              { label: 'Chip Huyen — Agents', url: 'https://huyenchip.com/2025/01/07/agents.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-5',
+        title: '8.5 Custom Evaluation & LLM-as-Judge',
+        hours: '~10–12h',
+        why:
+          'The single most valuable skill an FDE ships for a customer is a domain-specific eval pipeline. Without it, every later decision (model choice, prompt change, fine-tune) is guessing.',
+        focus:
+          'Hamel full eval playbook → Eugene Yan LLM-as-judge patterns → pick one tool (Braintrust or LangSmith) and run an eval against a real customer-style dataset.',
+        primary: [
+          { label: 'Hamel Husain — Your AI product needs evals', url: 'https://hamel.dev/blog/posts/evals/' },
+          { label: 'Hamel Husain — A Field Guide to Rapidly Improving AI Products', url: 'https://hamel.dev/blog/posts/field-guide/' },
+          { label: 'Eugene Yan — LLM-as-Judge', url: 'https://eugeneyan.com/writing/llm-evaluators/' },
+          { label: 'Anthropic — Evaluating prompts', url: 'https://docs.anthropic.com/en/docs/test-and-evaluate/eval-tool' },
+        ],
+        fallbacks: [
+          {
+            label: 'Eval platforms',
+            links: [
+              { label: 'Braintrust docs', url: 'https://www.braintrust.dev/docs' },
+              { label: 'LangSmith docs', url: 'https://docs.smith.langchain.com' },
+              { label: 'Arize Phoenix', url: 'https://docs.arize.com/phoenix' },
+              { label: 'HuggingFace evaluation-guidebook', url: 'https://github.com/huggingface/evaluation-guidebook' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-6',
+        title: '8.6 RAG & Enterprise Retrieval Systems',
+        hours: '~10–12h',
+        focus:
+          'Anthropic contextual retrieval → OpenAI retrieval cookbook → hybrid search in Qdrant/pgvector → evaluate with RAGAS. In enterprise contexts BM25+rerank usually beats pure dense.',
+        primary: [
+          { label: 'Anthropic — Contextual Retrieval', url: 'https://www.anthropic.com/news/contextual-retrieval' },
+          { label: 'OpenAI cookbook — Retrieval', url: 'https://cookbook.openai.com/examples/question_answering_using_embeddings' },
+          { label: 'Qdrant — Hybrid queries', url: 'https://qdrant.tech/documentation/concepts/hybrid-queries/' },
+          { label: 'RAGAS docs', url: 'https://docs.ragas.io' },
+        ],
+        fallbacks: [
+          {
+            label: 'Complementary',
+            links: [
+              { label: 'pgvector', url: 'https://github.com/pgvector/pgvector' },
+              { label: 'LlamaIndex docs', url: 'https://docs.llamaindex.ai' },
+              { label: 'Jason Liu — RAG writing', url: 'https://jxnl.co/writing/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-7',
+        title: '8.7 Cost, Latency & Reliability Engineering',
+        hours: '~8–10h',
+        focus:
+          'Understand the cost triangle (model size × tokens × retries) before you ship. Caching, batching, streaming, spec decoding, quantization and routing between small/large models are the FDE daily toolbox.',
+        primary: [
+          { label: 'Anthropic — Prompt caching', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching' },
+          { label: 'Anthropic — Batch processing', url: 'https://docs.anthropic.com/en/docs/build-with-claude/batch-processing' },
+          {
+            label: 'Anyscale — continuous-batching blog',
+            url: 'https://www.anyscale.com/blog/continuous-batching-llm-inference',
+          },
+          {
+            label: 'Artificial Analysis — model speed / price benchmarks',
+            url: 'https://artificialanalysis.ai',
+          },
+        ],
+        fallbacks: [
+          {
+            label: 'Deeper',
+            links: [
+              { label: 'OpenAI — Production best practices', url: 'https://platform.openai.com/docs/guides/production-best-practices' },
+              {
+                label: 'Lilian Weng — Inference optimization',
+                url: 'https://lilianweng.github.io/posts/2023-01-10-inference-optimization/',
+              },
+              { label: 'vLLM — Performance tuning', url: 'https://docs.vllm.ai/en/latest/performance/optimization.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-8',
+        title: '8.8 Observability, Tracing & Monitoring',
+        hours: '~6–8h',
+        focus:
+          "Pick one stack and be fluent: Langfuse OSS or LangSmith for app traces; OpenTelemetry GenAI conventions for cross-stack; Arize Phoenix for drift / eval regression. Don't ship production without traces.",
+        primary: [
+          { label: 'Langfuse docs', url: 'https://langfuse.com/docs' },
+          { label: 'LangSmith — Tracing', url: 'https://docs.smith.langchain.com/observability' },
+          { label: 'OpenTelemetry — GenAI semantic conventions', url: 'https://opentelemetry.io/docs/specs/semconv/gen-ai/' },
+          { label: 'Arize Phoenix — Tracing LLM apps', url: 'https://docs.arize.com/phoenix/tracing/llm-traces' },
+        ],
+        fallbacks: [
+          {
+            label: 'Patterns',
+            links: [
+              { label: 'Hamel Husain — Observability', url: 'https://hamel.dev/blog/posts/evals-faq/' },
+              {
+                label: 'Helicone — LLM observability',
+                url: 'https://docs.helicone.ai',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-9',
+        title: '8.9 Fine-Tuning & Customization for Clients',
+        hours: '~10–15h',
+        focus:
+          'Use the existing 4.10 material, but bias toward the three customer-friendly recipes: OpenAI/Anthropic managed fine-tuning, LoRA/QLoRA on open models, and distillation from a larger frontier teacher.',
+        primary: [
+          { label: 'OpenAI — Fine-tuning guide', url: 'https://platform.openai.com/docs/guides/fine-tuning' },
+          { label: 'Anthropic — Fine-tuning Claude (via partners)', url: 'https://www.anthropic.com/news/fine-tune-claude-3-haiku' },
+          { label: 'HuggingFace PEFT docs', url: 'https://huggingface.co/docs/peft' },
+          {
+            label: 'Raschka — Practical Tips for Finetuning LLMs Using LoRA',
+            url: 'https://magazine.sebastianraschka.com/p/practical-tips-for-finetuning-llms',
+          },
+        ],
+        fallbacks: [
+          {
+            label: 'Distillation for deployment',
+            links: [
+              {
+                label: 'HF — Distilling Step-by-Step',
+                url: 'https://huggingface.co/blog/distilling-step-by-step',
+              },
+              { label: 'MiniLLM (reverse KL) — arXiv:2306.08543', url: 'https://arxiv.org/abs/2306.08543' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-10',
+        title: '8.10 Security, Privacy & Compliance',
+        hours: '~8–10h',
+        why:
+          'Every enterprise deployment dies or ships on this topic. Prompt injection, data exfiltration, PII and (in EU) the AI Act are non-optional FDE literacy.',
+        focus:
+          'OWASP LLM Top 10 → Willison on exfiltration + prompt injection → NIST AI RMF / EU AI Act summaries so you can answer legal in a room.',
+        primary: [
+          { label: 'OWASP Top 10 for LLM Applications', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
+          { label: 'Simon Willison — prompt injection archive', url: 'https://simonwillison.net/tags/prompt-injection/' },
+          { label: 'NIST AI Risk Management Framework', url: 'https://www.nist.gov/itl/ai-risk-management-framework' },
+          { label: 'EU AI Act — official overview', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
+        ],
+        fallbacks: [
+          {
+            label: 'Adjacent',
+            links: [
+              {
+                label: 'Anthropic Responsible Scaling Policy',
+                url: 'https://www.anthropic.com/news/anthropics-responsible-scaling-policy',
+              },
+              {
+                label: 'OpenAI Preparedness framework',
+                url: 'https://openai.com/index/updating-our-preparedness-framework/',
+              },
+              { label: 'Microsoft — Responsible AI standard', url: 'https://www.microsoft.com/en-us/ai/responsible-ai' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-11',
+        title: '8.11 Data Pipelines for LLM Products',
+        hours: '~10–12h',
+        why:
+          'RAG and agent systems live or die on the data pipeline behind them — freshness, permissions, schema changes, PII handling. Every FDE eventually ships Airflow/Dagster DAGs and CDC indexes.',
+        concept:
+          'Batch orchestration (Airflow, Dagster, Prefect, Temporal) → CDC + streaming (Kafka, Debezium) → lakehouse (Delta / Iceberg) → permission-aware retrieval (row-level ACLs, per-tenant indexes) → PII redaction pipelines.',
+        focus:
+          'Read Dagster + Temporal docs, skim Iceberg spec, then build a small pipeline: CDC from Postgres → chunk + embed → upsert into pgvector, with per-tenant filters.',
+        primary: [
+          { label: 'Dagster docs', url: 'https://docs.dagster.io/' },
+          { label: 'Temporal docs', url: 'https://docs.temporal.io/' },
+          { label: 'Apache Iceberg spec', url: 'https://iceberg.apache.org/spec/' },
+          { label: 'Debezium — CDC overview', url: 'https://debezium.io/documentation/reference/stable/architecture.html' },
+        ],
+        fallbacks: [
+          {
+            label: 'Orchestration alternatives',
+            links: [
+              { label: 'Apache Airflow concepts', url: 'https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/index.html' },
+              { label: 'Prefect docs', url: 'https://docs.prefect.io/' },
+            ],
+          },
+          {
+            label: 'Storage, features & tenancy',
+            links: [
+              { label: 'Delta Lake docs', url: 'https://docs.delta.io/latest/index.html' },
+              { label: 'Feast feature store', url: 'https://docs.feast.dev/' },
+              { label: 'Supabase — Row-Level Security', url: 'https://supabase.com/docs/guides/database/postgres/row-level-security' },
+              { label: 'Microsoft Presidio (PII redaction)', url: 'https://microsoft.github.io/presidio/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-12',
+        title: '8.12 Agent Memory & State',
+        hours: '~8–10h',
+        why:
+          'Agents without persistent memory regress on week 2 of production. Short/long-term memory, episodic vs semantic retrieval, and stateful orchestration are the hard engineering problem underneath every agent demo that "kind of works".',
+        concept:
+          'Short-term (turn window) vs long-term (episodic + semantic) memory. Vector-only vs vector-plus-graph memory. Stateful orchestration (LangGraph persistence, Temporal workflows).',
+        focus:
+          'Read MemGPT + Letta, skim LangGraph state persistence, and build a tiny agent with episodic memory retrieval over a growing journal.',
+        primary: [
+          { label: 'MemGPT — arXiv:2310.08560', url: 'https://arxiv.org/abs/2310.08560' },
+          { label: 'Letta (MemGPT production)', url: 'https://docs.letta.com/introduction' },
+          { label: 'LangGraph — persistence & memory', url: 'https://langchain-ai.github.io/langgraph/concepts/persistence/' },
+          { label: 'Mem0', url: 'https://docs.mem0.ai/overview' },
+        ],
+        fallbacks: [
+          {
+            label: 'Graph-augmented memory',
+            links: [
+              { label: 'GraphRAG (Microsoft) — arXiv:2404.16130', url: 'https://arxiv.org/abs/2404.16130' },
+              { label: 'Neo4j GenAI ecosystem', url: 'https://neo4j.com/developer/genai-ecosystem/' },
+              { label: 'Zep long-term memory', url: 'https://help.getzep.com/' },
+            ],
+          },
+          {
+            label: 'Stateful orchestration',
+            links: [
+              { label: 'Temporal for agents', url: 'https://temporal.io/blog/what-are-agentic-workflows' },
+              { label: 'Inngest — durable workflows', url: 'https://www.inngest.com/docs' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-13',
+        title: '8.13 Continuous Evals & Eval Pipelines',
+        hours: '~8–10h',
+        why:
+          'One-shot evals are a demo. Production LLM products need continuous evals: trace → label → regression set → CI gate. This is the top reliability lever after retrieval infra.',
+        concept:
+          'Offline eval sets (golden, synthetic) → online trace capture (OpenTelemetry / OpenLLMetry) → LLM-as-judge with rubric → regression suite in CI → alerting on quality drift.',
+        focus:
+          'Wire Braintrust or LangSmith on a small agent, then cover it with an Inspect/Promptfoo eval suite run in CI. Read Anthropic\'s evals guide.',
+        primary: [
+          { label: 'Anthropic — Creating strong empirical evaluations', url: 'https://www.anthropic.com/engineering/writing-evaluations' },
+          { label: 'Braintrust docs', url: 'https://www.braintrust.dev/docs' },
+          { label: 'LangSmith docs', url: 'https://docs.smith.langchain.com/' },
+          { label: 'UK AISI — Inspect', url: 'https://inspect.ai-safety-institute.org.uk/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Eval frameworks',
+            links: [
+              { label: 'Promptfoo docs', url: 'https://www.promptfoo.dev/docs/intro/' },
+              { label: 'Arize Phoenix', url: 'https://docs.arize.com/phoenix' },
+              { label: 'Ragas docs', url: 'https://docs.ragas.io/' },
+              { label: 'OpenAI Evals', url: 'https://github.com/openai/evals' },
+            ],
+          },
+          {
+            label: 'LLM-as-judge, carefully',
+            links: [
+              { label: 'LLM-as-a-Judge (MT-Bench) — arXiv:2306.05685', url: 'https://arxiv.org/abs/2306.05685' },
+              { label: 'Hamel Husain — eval playbook', url: 'https://hamel.dev/blog/posts/evals/' },
+            ],
+          },
+          {
+            label: 'Tracing standards',
+            links: [
+              { label: 'OpenTelemetry for GenAI', url: 'https://opentelemetry.io/blog/2024/llm-observability/' },
+              { label: 'OpenLLMetry', url: 'https://www.traceloop.com/docs/openllmetry/introduction' },
             ],
           },
         ],
@@ -2374,5 +4529,394 @@ export function allLinks(): Link[] {
     })
   );
   stayingCurrent.forEach((s) => s.entries.forEach((e) => push({ label: e.label, url: e.url })));
+  practiceAppendices.forEach((a) =>
+    a.groups.forEach((g) => g.problems.forEach((p) => p.links.forEach(push)))
+  );
   return Array.from(seen.values());
 }
+
+export const practiceAppendices: PracticeAppendixData[] = [
+  {
+    id: 'appendix-f',
+    letter: 'F',
+    title: 'Coding & DSA Practice',
+    blurb:
+      "Interview-grade DSA + competitive practice. Frontier labs still test LeetCode-Hard — don't skip this.",
+    groups: [
+      {
+        label: 'Curated problem sets',
+        problems: [
+          {
+            title: 'NeetCode 150 — the standard LeetCode curriculum',
+            note: 'Pattern-first: arrays, two pointers, sliding window, stacks, trees, graphs, DP, intervals.',
+            links: [{ label: 'NeetCode 150', url: 'https://neetcode.io/practice' }],
+          },
+          {
+            title: 'Blind 75',
+            links: [
+              {
+                label: 'Blind 75 list',
+                url: 'https://www.techinterviewhandbook.org/grind75/',
+              },
+            ],
+          },
+          {
+            title: 'LeetCode company tags — target firms',
+            links: [{ label: 'LeetCode', url: 'https://leetcode.com/problemset/' }],
+          },
+          {
+            title: 'Tech Interview Handbook',
+            links: [{ label: 'Tech Interview Handbook', url: 'https://www.techinterviewhandbook.org/' }],
+          },
+        ],
+      },
+      {
+        label: 'Depth & competitive',
+        problems: [
+          {
+            title: 'Codeforces EDU — core algorithmic topics',
+            links: [{ label: 'Codeforces EDU', url: 'https://codeforces.com/edu/courses' }],
+          },
+          {
+            title: 'CSES Problem Set — 300 classic problems',
+            links: [{ label: 'CSES', url: 'https://cses.fi/problemset/' }],
+          },
+          {
+            title: 'Codeforces Round practice',
+            links: [{ label: 'Codeforces', url: 'https://codeforces.com/' }],
+          },
+          {
+            title: 'AlgoExpert / InterviewBit (optional alternatives)',
+            links: [
+              { label: 'InterviewBit', url: 'https://www.interviewbit.com/practice/' },
+              { label: 'AlgoExpert', url: 'https://www.algoexpert.io/' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Systems-y coding (lab-flavored)',
+        problems: [
+          {
+            title: 'Design a rate limiter / thread pool / bounded buffer',
+            note: 'Common Anthropic / OpenAI onsite questions.',
+            links: [
+              { label: 'Rate limiter patterns (Stripe blog)', url: 'https://stripe.com/blog/rate-limiters' },
+            ],
+          },
+          {
+            title: 'C++/Python concurrency drills',
+            links: [
+              { label: 'Rachel by the Bay — threading classics', url: 'https://rachelbythebay.com/w/' },
+              { label: 'Little Book of Semaphores', url: 'https://greenteapress.com/wp/semaphores/' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'appendix-g',
+    letter: 'G',
+    title: 'ML-From-Scratch Implementation Drills',
+    blurb:
+      'Implement, do not just read. Each drill is a weekend; all together they cover the Karpathy → FlashAttention stack.',
+    groups: [
+      {
+        label: 'Karpathy build-ups (do in order)',
+        problems: [
+          {
+            title: 'micrograd — scalar autograd + tiny MLP',
+            links: [
+              { label: 'karpathy/micrograd', url: 'https://github.com/karpathy/micrograd' },
+              { label: 'Karpathy — micrograd video', url: 'https://www.youtube.com/watch?v=VMj-3S1tku0' },
+            ],
+          },
+          {
+            title: 'makemore — bigram → MLP → WaveNet → Transformer',
+            links: [
+              { label: 'karpathy/makemore', url: 'https://github.com/karpathy/makemore' },
+              { label: 'Karpathy — Zero to Hero playlist', url: 'https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ' },
+            ],
+          },
+          {
+            title: 'nanoGPT — train a 124M GPT on OpenWebText',
+            links: [{ label: 'karpathy/nanoGPT', url: 'https://github.com/karpathy/nanoGPT' }],
+          },
+          {
+            title: 'minbpe — BPE tokenizer from scratch',
+            links: [{ label: 'karpathy/minbpe', url: 'https://github.com/karpathy/minbpe' }],
+          },
+          {
+            title: 'llm.c — GPT-2 forward + backward in raw C/CUDA',
+            links: [{ label: 'karpathy/llm.c', url: 'https://github.com/karpathy/llm.c' }],
+          },
+        ],
+      },
+      {
+        label: 'Core components from scratch',
+        problems: [
+          {
+            title: 'Implement a transformer (attention, MHA, RoPE, RMSNorm, SwiGLU)',
+            links: [
+              { label: 'The Annotated Transformer', url: 'https://nlp.seas.harvard.edu/annotated-transformer/' },
+              { label: 'Llama 3 reference impl', url: 'https://github.com/meta-llama/llama3' },
+            ],
+          },
+          {
+            title: 'Implement LoRA on a pretrained model',
+            links: [
+              { label: 'LoRA — arXiv:2106.09685', url: 'https://arxiv.org/abs/2106.09685' },
+              { label: 'HF PEFT — source', url: 'https://github.com/huggingface/peft' },
+            ],
+          },
+          {
+            title: 'Write a Triton attention kernel (naive → tiled)',
+            links: [
+              { label: 'Triton fused attention tutorial', url: 'https://triton-lang.org/main/getting-started/tutorials/06-fused-attention.html' },
+            ],
+          },
+          {
+            title: 'Toy diffusion: 1D Gaussians + tiny U-Net on MNIST',
+            links: [
+              { label: 'Lilian Weng — Diffusion Models', url: 'https://lilianweng.github.io/posts/2021-07-11-diffusion-models/' },
+              { label: 'HF Diffusion Course Unit 1', url: 'https://huggingface.co/learn/diffusion-course/en/unit1/1' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'RL / post-training drills',
+        problems: [
+          {
+            title: 'PPO on CartPole from scratch',
+            links: [
+              { label: 'Spinning Up — PPO', url: 'https://spinningup.openai.com/en/latest/algorithms/ppo.html' },
+            ],
+          },
+          {
+            title: 'DPO on a small open model',
+            links: [
+              { label: 'DPO — arXiv:2305.18290', url: 'https://arxiv.org/abs/2305.18290' },
+              { label: 'huggingface/trl', url: 'https://github.com/huggingface/trl' },
+            ],
+          },
+          {
+            title: 'GRPO reproduction on a math dataset',
+            links: [
+              { label: 'DeepSeekMath / GRPO — arXiv:2402.03300', url: 'https://arxiv.org/abs/2402.03300' },
+              { label: 'OpenRLHF', url: 'https://github.com/OpenRLHF/OpenRLHF' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'appendix-h',
+    letter: 'H',
+    title: 'ML System Design Problem Bank',
+    blurb:
+      'Spend 60–90 min per problem: scope, data, model, serving, evals, failure modes. Interviewers grade on the shape of your plan.',
+    groups: [
+      {
+        label: 'Core ML system design',
+        problems: [
+          {
+            title: 'Design YouTube / Netflix recommendations',
+            links: [
+              { label: 'Chip Huyen — ML Interviews Book', url: 'https://huyenchip.com/ml-interviews-book/' },
+            ],
+          },
+          {
+            title: 'Design a feed ranking system (Instagram / Twitter)',
+            links: [
+              { label: 'Eugene Yan — system design essays', url: 'https://eugeneyan.com/start-here/' },
+            ],
+          },
+          {
+            title: 'Design a fraud / abuse detection pipeline',
+            links: [
+              { label: 'Stripe Radar engineering blog', url: 'https://stripe.com/blog/radar-ai' },
+            ],
+          },
+          {
+            title: 'Design an ads click-through rate (CTR) system',
+            links: [
+              {
+                label: 'Alex Xu — ML System Design Interview',
+                url: 'https://bytebytego.com/courses/machine-learning-system-design-interview',
+              },
+            ],
+          },
+          {
+            title: 'Design a search ranker',
+            links: [
+              { label: 'Grokking the ML Interview (educative)', url: 'https://www.educative.io/courses/grokking-the-machine-learning-interview' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'LLM / agent system design',
+        problems: [
+          {
+            title: 'Design an enterprise RAG over 10M docs with per-user ACLs',
+            note: 'Focus: embedding choice, hybrid search, rerank, freshness, permissions, evals.',
+            links: [
+              { label: 'Anthropic — Contextual Retrieval', url: 'https://www.anthropic.com/news/contextual-retrieval' },
+            ],
+          },
+          {
+            title: 'Design a coding agent (Cursor / Devin-style)',
+            links: [
+              { label: 'Anthropic — Building Effective Agents', url: 'https://www.anthropic.com/engineering/building-effective-agents' },
+            ],
+          },
+          {
+            title: 'Design an LLM inference service at 100k rps',
+            note: 'Continuous batching, KV cache, speculative decoding, autoscaling, multi-tenant QoS.',
+            links: [
+              { label: 'vLLM docs', url: 'https://docs.vllm.ai/en/latest/' },
+              { label: 'NVIDIA — LLM serving at scale', url: 'https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/' },
+            ],
+          },
+          {
+            title: 'Design an eval system for a shipped agent',
+            links: [
+              { label: 'Hamel Husain — Evals playbook', url: 'https://hamel.dev/blog/posts/evals/' },
+            ],
+          },
+          {
+            title: 'Design a fine-tuning + eval pipeline for a customer',
+            links: [{ label: 'Weights & Biases — LLMOps course', url: 'https://www.wandb.courses/courses/training-fine-tuning-LLMs' }],
+          },
+        ],
+      },
+      {
+        label: 'Frameworks to internalize',
+        problems: [
+          {
+            title: 'Six-step ML system design framework',
+            links: [
+              { label: 'Chip Huyen — ML System Design (blog)', url: 'https://huyenchip.com/machine-learning-systems-design/toc.html' },
+              {
+                label: 'Designing ML Systems (book site)',
+                url: 'https://huyenchip.com/designing-machine-learning-systems/',
+              },
+            ],
+          },
+          {
+            title: 'ML System Design interview cheat-sheet',
+            links: [
+              { label: 'khangich/machine-learning-interview', url: 'https://github.com/khangich/machine-learning-interview' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'appendix-i',
+    letter: 'I',
+    title: 'Paper Reproductions & Portfolio Projects',
+    blurb:
+      "You need proof of work. A handful of reproduced papers + one shipped project beats a long resume. Do at least two from each group.",
+    groups: [
+      {
+        label: 'Reproduce a paper (pick 2)',
+        problems: [
+          {
+            title: 'Reproduce nanoGPT speedrun / GPT-2 training',
+            links: [
+              { label: 'karpathy/nanoGPT', url: 'https://github.com/karpathy/nanoGPT' },
+              { label: 'modded-nanogpt (speedrun leaderboard)', url: 'https://github.com/KellerJordan/modded-nanogpt' },
+            ],
+          },
+          {
+            title: 'Reproduce Chinchilla scaling laws on a toy budget',
+            links: [{ label: 'Chinchilla — arXiv:2203.15556', url: 'https://arxiv.org/abs/2203.15556' }],
+          },
+          {
+            title: 'Reproduce FlashAttention-2 forward pass in Triton',
+            links: [
+              { label: 'Dao-AILab/flash-attention', url: 'https://github.com/Dao-AILab/flash-attention' },
+              { label: 'FlashAttention-2 — arXiv:2307.08691', url: 'https://arxiv.org/abs/2307.08691' },
+            ],
+          },
+          {
+            title: 'Reproduce TinyLlama or OLMo end-to-end training',
+            links: [
+              { label: 'TinyLlama', url: 'https://github.com/jzhang38/TinyLlama' },
+              { label: 'allenai/OLMo', url: 'https://github.com/allenai/OLMo' },
+            ],
+          },
+          {
+            title: 'Reproduce DPO / GRPO on an open small model',
+            links: [
+              { label: 'huggingface/trl', url: 'https://github.com/huggingface/trl' },
+              { label: 'OpenRLHF', url: 'https://github.com/OpenRLHF/OpenRLHF' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Ship a project (pick 2)',
+        problems: [
+          {
+            title: 'Production RAG over your own corpus with evals',
+            note: 'Hybrid search, reranker, evals in CI, per-user ACLs. Deploy on Vercel or Fly.',
+            links: [
+              { label: 'Ragas docs', url: 'https://docs.ragas.io/' },
+              { label: 'LangGraph docs', url: 'https://langchain-ai.github.io/langgraph/' },
+            ],
+          },
+          {
+            title: 'A custom coding / research agent for your own workflow',
+            links: [
+              { label: 'All-Hands-AI/OpenHands', url: 'https://github.com/All-Hands-AI/OpenHands' },
+              { label: 'browser-use/browser-use', url: 'https://github.com/browser-use/browser-use' },
+            ],
+          },
+          {
+            title: 'Fine-tune + evaluate a 3–8B open model for a concrete task',
+            links: [
+              { label: 'Unsloth docs', url: 'https://docs.unsloth.ai/' },
+              { label: 'Axolotl', url: 'https://github.com/axolotl-ai-cloud/axolotl' },
+            ],
+          },
+          {
+            title: 'Kaggle competition (CV or NLP track, silver or better)',
+            links: [{ label: 'Kaggle', url: 'https://www.kaggle.com/competitions' }],
+          },
+          {
+            title: 'An open-source contribution to vLLM / TRL / Transformers / Triton',
+            links: [
+              { label: 'vllm-project/vllm', url: 'https://github.com/vllm-project/vllm' },
+              { label: 'huggingface/transformers', url: 'https://github.com/huggingface/transformers' },
+              { label: 'triton-lang/triton', url: 'https://github.com/triton-lang/triton' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Interview take-home archetypes',
+        problems: [
+          {
+            title: 'Anthropic-style take-home — "ship something useful in 4 hours"',
+            links: [
+              {
+                label: 'Anthropic — engineering interview process',
+                url: 'https://www.anthropic.com/jobs',
+              },
+            ],
+          },
+          {
+            title: 'OpenAI / xAI small evals or dataset generation prompt',
+            links: [{ label: 'OpenAI — open roles', url: 'https://openai.com/careers/' }],
+          },
+        ],
+      },
+    ],
+  },
+];

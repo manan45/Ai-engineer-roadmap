@@ -69,9 +69,9 @@ function WeekCard({ w, statusMap }: { w: Week; statusMap?: Record<string, LinkSt
 
 export function AppendixA({ weeks, statusMap }: Props) {
   return (
-    <section id="appendix-a" className="scroll-mt-24">
+    <section className="scroll-mt-0">
       <div className="mb-4">
-        <h2 className="text-xl font-semibold text-ink">Appendix A · First 90 Days</h2>
+        <h2 className="text-xl font-serif font-semibold text-ink">Practice A · First 90 Days</h2>
         <p className="mt-1 text-sm text-muted max-w-3xl">
           ~20h/week: ~2h weekday + ~6h weekend. Double down on what your background can&apos;t teach
           you — deep transformer internals, efficient ML at LLM scale, post-training.

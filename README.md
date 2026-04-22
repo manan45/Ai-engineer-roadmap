@@ -1,10 +1,11 @@
 # Atlas — Frontier AI Engineering Roadmap Dashboard
 
-A Next.js dashboard for the April 19, 2026 Atlas curriculum (6 tracks + Track 5.5 + 5 appendices). Every URL is sourced verbatim from the source document.
+A Next.js **inline book** for the April 19, 2026 Atlas curriculum (6 tracks + Track 5.5 + 5 appendices). Every URL is sourced verbatim from the source document.
 
-- Search across all topics and resources
-- Per-topic / per-week completion state (stored locally in your browser)
-- **Server-side link-status cache** on the filesystem (7-day TTL), pre-warmed at build time
+- **Parchment / night** reading theme, table of contents, focus mode, scroll progress, keyboard shortcuts
+- **Preview** on every resource: YouTube embed, PDFs via same-origin proxy, arXiv abstract + inline PDF, GitHub README, Readability for other pages (curriculum-allowlist only)
+- Search across all topics and resources; per-topic / per-week completion in `localStorage`
+- **Link-status cache** (7-day TTL) + **reader** + **GitHub README** caches (30-day TTL, best-effort warm at build)
 - Deployable to Netlify in one step
 
 ---
@@ -16,7 +17,7 @@ A Next.js dashboard for the April 19, 2026 Atlas curriculum (6 tracks + Track 5.
 - Server-side link cache in `lib/linkCache.ts`
   - Baseline: `.cache/link-status.json` (committed, refreshed at build)
   - Runtime writes on Netlify: `/tmp/atlas-link-cache/link-status.json` (merged with baseline at read time)
-- API route: `app/api/link-status/route.ts` (GET snapshot, POST refresh)
+- API: `app/api/link-status/`, `app/api/proxy/` (PDF/iframe), `app/api/reader/` (Readability + `jsdom@24`), `app/api/github-readme/`
 
 ---
 
@@ -44,7 +45,7 @@ npm run build && npm start
    - Build command: `npm run warm-cache && npm run build`
    - Publish dir: `.next`
    - Plugin: `@netlify/plugin-nextjs`
-4. Deploy. First build takes ~2 minutes (warm-cache ~80s for 398 URLs + Next build).
+4. Deploy. First build is longer: `warm-cache` checks links, then best-effort reader + GitHub README, then `next build`.
 
 **Cache behaviour on Netlify:**
 - Build time → `warm-cache` probes every URL and writes the baseline to `.cache/link-status.json` (shipped with the function bundle).
@@ -58,22 +59,22 @@ npm run build && npm start
 ```
 app/
   api/link-status/route.ts   # GET/POST link-status JSON
-  Dashboard.tsx              # client shell (search, progress, refresh)
+  Dashboard.tsx              # book + curriculum content
+  BookShell.tsx, ChapterFrame, ResourcePreview, previews/* …
   layout.tsx
   page.tsx                   # server entry; reads initial cache snapshot
   globals.css
 components/
   TopBar.tsx  Sidebar.tsx
-  TrackSection.tsx  TopicCard.tsx  LinkItem.tsx
-  AppendixA.tsx ... AppendixE.tsx
+  TrackSection.tsx  TopicCard.tsx  LinkItem.tsx (chips + Preview) · AppendixA–E
 data/
   curriculum.ts              # every exact link from the source curriculum
 lib/
-  linkCache.ts               # filesystem cache with baseline + /tmp merge
+  linkCache.ts, readerCache.ts, githubReadmeCache.ts, curriculumAllowlist.ts, linkMeta.ts
 scripts/
-  warm-cache.ts              # probes every URL and writes .cache/link-status.json
+  warm-cache.ts              # links + best-effort reader + github
 .cache/
-  link-status.json           # warmed baseline (committed)
+  link-status.json, reader-cache.json, github-readme-cache.json  (optional baselines; warm-cache writes)
 netlify.toml
 ```
 

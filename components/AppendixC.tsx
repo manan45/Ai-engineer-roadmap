@@ -8,9 +8,9 @@ type Props = { universities: UniversityCourses[]; statusMap?: Record<string, Lin
 
 export function AppendixC({ universities, statusMap }: Props) {
   return (
-    <section id="appendix-c" className="scroll-mt-24">
+    <section className="scroll-mt-0">
       <div className="mb-4">
-        <h2 className="text-xl font-semibold text-ink">Appendix C · Best University Courses</h2>
+        <h2 className="text-xl font-serif font-semibold text-ink">Practice C · Best University Courses</h2>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
         {universities.map((u) => (

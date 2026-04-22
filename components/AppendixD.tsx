@@ -8,9 +8,9 @@ type Props = { categories: YoutubeCategory[]; statusMap?: Record<string, LinkSta
 
 export function AppendixD({ categories, statusMap }: Props) {
   return (
-    <section id="appendix-d" className="scroll-mt-24">
+    <section className="scroll-mt-0">
       <div className="mb-4">
-        <h2 className="text-xl font-semibold text-ink">Appendix D · YouTube Gold Mines</h2>
+        <h2 className="text-xl font-serif font-semibold text-ink">Practice D · YouTube Gold Mines</h2>
       </div>
       <div className="grid gap-3">
         {categories.map((cat) => (

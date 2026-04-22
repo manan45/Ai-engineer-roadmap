@@ -6,6 +6,7 @@ import {
   universityCourses,
   youtubeCategories,
   stayingCurrent,
+  practiceAppendices,
   allLinks,
 } from '@/data/curriculum';
 import { snapshot } from '@/lib/linkCache';
@@ -24,6 +25,7 @@ export default async function Page() {
       universities={universityCourses}
       youtubeCategories={youtubeCategories}
       stayingCurrent={stayingCurrent}
+      practiceAppendices={practiceAppendices}
       initialStatus={initialStatus}
       allUrls={all.map((l) => l.url)}
     />

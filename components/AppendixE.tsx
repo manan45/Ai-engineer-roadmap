@@ -8,9 +8,9 @@ type Props = { sections: StayingCurrentSection[]; statusMap?: Record<string, Lin
 
 export function AppendixE({ sections, statusMap }: Props) {
   return (
-    <section id="appendix-e" className="scroll-mt-24">
+    <section className="scroll-mt-0">
       <div className="mb-4">
-        <h2 className="text-xl font-semibold text-ink">Appendix E · Staying Current in 2026</h2>
+        <h2 className="text-xl font-serif font-semibold text-ink">Practice E · Staying Current in 2026</h2>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
         {sections.map((s) => (
