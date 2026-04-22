@@ -801,6 +801,41 @@ export const tracks: Track[] = [
           },
         ],
       },
+      {
+        id: '2-13',
+        title: '2.13 Anomaly & Outlier Detection',
+        hours: '~6–8h',
+        why:
+          'Fraud, intrusion detection, manufacturing QC, and production ML monitoring all reduce to anomaly detection. It is also the most common "unsupervised" task actually shipped in industry.',
+        concept:
+          'Statistical tests, Isolation Forest, One-Class SVM, autoencoder reconstruction error, density-based (LOF, DBSCAN), deep anomaly detection (Deep SVDD), time-series anomaly detection, streaming vs batch detection.',
+        focus:
+          'Run Isolation Forest, LOF, and an autoencoder on one real dataset (credit card fraud or KDD). Compare PR-AUC and analyze the trade-off between false positives and false negatives.',
+        primary: [
+          { label: 'Isolation Forest (Liu et al.) — ICDM 2008', url: 'https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf' },
+          { label: 'PyOD — Python Outlier Detection library', url: 'https://pyod.readthedocs.io/en/latest/' },
+          { label: 'Deep SVDD — Ruff et al. ICML 2018', url: 'http://proceedings.mlr.press/v80/ruff18a.html' },
+          { label: 'scikit-learn — Outlier detection', url: 'https://scikit-learn.org/stable/modules/outlier_detection.html' },
+        ],
+        fallbacks: [
+          {
+            label: 'Time-series & streaming',
+            links: [
+              { label: 'Numenta HTM for anomaly detection', url: 'https://numenta.com/resources/' },
+              { label: 'ADTK — Anomaly Detection Toolkit', url: 'https://adtk.readthedocs.io/en/stable/' },
+              { label: 'Twitter AnomalyDetection (historical)', url: 'https://github.com/twitter/AnomalyDetection' },
+            ],
+          },
+          {
+            label: 'Industrial & fraud applications',
+            links: [
+              { label: 'MVTec AD benchmark (industrial)', url: 'https://www.mvtec.com/company/research/datasets/mvtec-ad' },
+              { label: 'IEEE-CIS Fraud Detection (Kaggle)', url: 'https://www.kaggle.com/c/ieee-fraud-detection' },
+              { label: 'Deep Learning for Anomaly Detection — arXiv:2007.02500', url: 'https://arxiv.org/abs/2007.02500' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -1166,6 +1201,43 @@ export const tracks: Track[] = [
               { label: 'BOHB (Bayesian Optimization and Hyperband) — arXiv:1807.01774', url: 'https://arxiv.org/abs/1807.01774' },
               { label: 'Hyperband — arXiv:1603.06560', url: 'https://arxiv.org/abs/1603.06560' },
               { label: 'Weights & Biases Sweeps', url: 'https://docs.wandb.ai/guides/sweeps' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '3-12',
+        title: '3.12 Self-Supervised & Contrastive Representation Learning',
+        hours: '~10–12h',
+        why:
+          'Almost every modern foundation model — CLIP, DINOv2, MAE, wav2vec, the vision half of every VLM — is built on self-supervised pretraining. You cannot reason about multimodal models, vision encoders, or representation quality without understanding SSL.',
+        concept:
+          'Contrastive learning (SimCLR, MoCo), non-contrastive SSL (BYOL, SimSiam), masked image modeling (MAE, BEiT), joint-embedding predictive architectures (I-JEPA), vision-language contrastive (CLIP, SigLIP), probing vs fine-tuning evaluation.',
+        focus:
+          'Read SimCLR + MAE + DINOv2. Train a small SimCLR or MAE on CIFAR/ImageNet-subset and evaluate with linear probing.',
+        primary: [
+          { label: 'SimCLR — arXiv:2002.05709', url: 'https://arxiv.org/abs/2002.05709' },
+          { label: 'MoCo v3 — arXiv:2104.02057', url: 'https://arxiv.org/abs/2104.02057' },
+          { label: 'MAE — arXiv:2111.06377', url: 'https://arxiv.org/abs/2111.06377' },
+          { label: 'DINOv2 — arXiv:2304.07193', url: 'https://arxiv.org/abs/2304.07193' },
+        ],
+        fallbacks: [
+          {
+            label: 'Non-contrastive & JEPA family',
+            links: [
+              { label: 'BYOL — arXiv:2006.07733', url: 'https://arxiv.org/abs/2006.07733' },
+              { label: 'SimSiam — arXiv:2011.10566', url: 'https://arxiv.org/abs/2011.10566' },
+              { label: 'I-JEPA — arXiv:2301.08243', url: 'https://arxiv.org/abs/2301.08243' },
+              { label: 'V-JEPA — arXiv:2404.08471', url: 'https://arxiv.org/abs/2404.08471' },
+            ],
+          },
+          {
+            label: 'Vision-language & audio SSL',
+            links: [
+              { label: 'CLIP — arXiv:2103.00020', url: 'https://arxiv.org/abs/2103.00020' },
+              { label: 'SigLIP — arXiv:2303.15343', url: 'https://arxiv.org/abs/2303.15343' },
+              { label: 'wav2vec 2.0 — arXiv:2006.11477', url: 'https://arxiv.org/abs/2006.11477' },
+              { label: 'LeCun — JEPA position paper', url: 'https://openreview.net/pdf?id=BZ5a1r-kVsf' },
             ],
           },
         ],
@@ -1829,6 +1901,41 @@ export const tracks: Track[] = [
           },
         ],
       },
+      {
+        id: '4-21',
+        title: '4.21 Active Learning & Data-Efficient Training',
+        hours: '~6–8h',
+        why:
+          'Labels are the bottleneck. Smart sample selection (active learning, coreset selection) and data-efficient adaptation are what make fine-tuning cheap and labeling budgets survivable. Frontier teams treat "which 10k examples do we label next?" as a first-class problem.',
+        concept:
+          'Uncertainty sampling, BALD, core-set selection, cluster-based selection, query-by-committee, self-training / pseudo-labeling, curriculum learning, data pruning (influence functions, gradient-based).',
+        focus:
+          'Read Settles active learning survey + one recent LLM-era data selection paper (e.g., LESS or DsDm). Implement uncertainty + core-set selection on a small classification task and compare label efficiency vs random.',
+        primary: [
+          { label: 'Settles — Active Learning Literature Survey', url: 'https://burrsettles.com/pub/settles.activelearning.pdf' },
+          { label: 'modAL (Python active learning framework)', url: 'https://modal-python.readthedocs.io/en/latest/' },
+          { label: 'LESS — Selecting Influential Data for Targeted Instruction Tuning (arXiv:2402.04333)', url: 'https://arxiv.org/abs/2402.04333' },
+          { label: 'DsDm — Model-Aware Dataset Selection (arXiv:2401.12926)', url: 'https://arxiv.org/abs/2401.12926' },
+        ],
+        fallbacks: [
+          {
+            label: 'Data selection & pruning',
+            links: [
+              { label: 'Coreset selection for DL — arXiv:1906.11829', url: 'https://arxiv.org/abs/1906.11829' },
+              { label: 'Data Pruning via Moving-one-Sample-out (MoSo) — arXiv:2310.14664', url: 'https://arxiv.org/abs/2310.14664' },
+              { label: 'Influence functions (Koh & Liang) — arXiv:1703.04730', url: 'https://arxiv.org/abs/1703.04730' },
+            ],
+          },
+          {
+            label: 'Self-training & curriculum',
+            links: [
+              { label: 'Noisy Student — arXiv:1911.04252', url: 'https://arxiv.org/abs/1911.04252' },
+              { label: 'Curriculum Learning (Bengio) — ICML 2009', url: 'https://dl.acm.org/doi/10.1145/1553374.1553380' },
+              { label: 'Cleanlab docs', url: 'https://docs.cleanlab.ai/' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -2257,6 +2364,88 @@ export const tracks: Track[] = [
               { label: 'Pathways system blog/paper index', url: 'https://blog.google/technology/ai/introducing-pathways-next-generation-ai-architecture/' },
               { label: 'PaLM — training at TPU scale', url: 'https://arxiv.org/abs/2204.02311' },
               { label: 'Gemma / JAX ecosystem examples', url: 'https://ai.google.dev/gemma/docs' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-14',
+        title: '5.14 Kubernetes, Containers & ML Platform Engineering',
+        hours: '~12–15h',
+        why:
+          'Every production ML system eventually runs on containers orchestrated by Kubernetes. Frontier labs, FDE targets, and every serious MLOps team expect you to be fluent in Docker, K8s, GPU scheduling, and one higher-level platform (Kubeflow / Flyte / Argo / SkyPilot / Ray on K8s). This is the missing link between a training script and a shipped product.',
+        concept:
+          'Docker images & multi-stage builds, container registries, K8s objects (Pods/Deployments/Jobs/StatefulSets), GPU scheduling + device plugin, node pools + taints, Helm charts, CRDs & operators, ML-specific platforms (Kubeflow, Argo Workflows, Flyte, KServe), training-job schedulers (Kueue, Volcano), cost/quota isolation, SkyPilot / KubeRay for multi-cloud.',
+        focus:
+          'Containerize a training + inference job, write a minimal Deployment + Service + HPA, then run it via one higher-level platform (Kubeflow Training Operator or KServe). Understand where GPUs, secrets, and storage plug in.',
+        primary: [
+          { label: 'Kubernetes docs — Concepts', url: 'https://kubernetes.io/docs/concepts/' },
+          { label: 'Docker — Get Started', url: 'https://docs.docker.com/get-started/' },
+          { label: 'Kubeflow docs', url: 'https://www.kubeflow.org/docs/' },
+          { label: 'KServe docs', url: 'https://kserve.github.io/website/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Workflow orchestration on K8s',
+            links: [
+              { label: 'Argo Workflows', url: 'https://argo-workflows.readthedocs.io/en/latest/' },
+              { label: 'Flyte docs', url: 'https://docs.flyte.org/en/latest/' },
+              { label: 'Kueue (batch scheduling)', url: 'https://kueue.sigs.k8s.io/docs/' },
+              { label: 'Volcano scheduler', url: 'https://volcano.sh/en/docs/' },
+            ],
+          },
+          {
+            label: 'GPU & cluster runtime',
+            links: [
+              { label: 'NVIDIA device plugin', url: 'https://github.com/NVIDIA/k8s-device-plugin' },
+              { label: 'SkyPilot', url: 'https://skypilot.readthedocs.io/en/latest/' },
+              { label: 'KubeRay', url: 'https://docs.ray.io/en/latest/cluster/kubernetes/index.html' },
+              { label: 'Helm docs', url: 'https://helm.sh/docs/' },
+            ],
+          },
+          {
+            label: 'Reference reading',
+            links: [
+              { label: 'Kelsey Hightower — Kubernetes The Hard Way', url: 'https://github.com/kelseyhightower/kubernetes-the-hard-way' },
+              { label: 'Google SRE book', url: 'https://sre.google/sre-book/table-of-contents/' },
+              { label: 'Chip Huyen — Building a GenAI platform', url: 'https://huyenchip.com/2024/07/25/genai-platform.html' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '5-15',
+        title: '5.15 Numerical Precision & Mixed-Precision Training',
+        hours: '~8–10h',
+        why:
+          'Frontier training runs live or die on numerical choices: FP32/TF32 vs BF16 vs FP16 vs FP8 vs FP4, loss scaling, master weights, and stochastic rounding. DeepSeek-V3 trained 671B in FP8 because of these details. Getting this wrong gives you silent NaNs, loss spikes, or a 2× slowdown for no reason.',
+        concept:
+          'IEEE float formats, BF16 vs FP16 range/precision trade-offs, TF32 on Ampere/Hopper, FP8 (E4M3/E5M2) + scaling factors, MXFP8 / MXFP4 microscaling, loss scaling & master weights, stochastic rounding, accumulation precision, Kahan / compensated summation, deterministic training.',
+        focus:
+          'Read the BF16 + FP8 training papers, then run the same model in FP32 / BF16 / FP8 on a transformer and inspect loss curves, throughput, and activation histograms. Understand why dynamic loss scaling exists.',
+        primary: [
+          { label: 'NVIDIA — Mixed-Precision Training guide', url: 'https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html' },
+          { label: 'Micikevicius — Mixed Precision Training arXiv:1710.03740', url: 'https://arxiv.org/abs/1710.03740' },
+          { label: 'FP8 Formats for Deep Learning — arXiv:2209.05433', url: 'https://arxiv.org/abs/2209.05433' },
+          { label: 'NVIDIA Transformer Engine docs', url: 'https://docs.nvidia.com/deeplearning/transformer-engine/' },
+        ],
+        fallbacks: [
+          {
+            label: 'FP8 / low-precision training',
+            links: [
+              { label: 'DeepSeek-V3 FP8 training — arXiv:2412.19437', url: 'https://arxiv.org/abs/2412.19437' },
+              { label: 'MXFP / OCP Microscaling spec', url: 'https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf' },
+              { label: 'Scaling FP8 training to trillion-token LLMs — arXiv:2409.12517', url: 'https://arxiv.org/abs/2409.12517' },
+              { label: 'FP8-LM — arXiv:2310.18313', url: 'https://arxiv.org/abs/2310.18313' },
+            ],
+          },
+          {
+            label: 'Practice & tooling',
+            links: [
+              { label: 'PyTorch AMP docs', url: 'https://pytorch.org/docs/stable/amp.html' },
+              { label: 'bfloat16 primer (Google)', url: 'https://cloud.google.com/tpu/docs/bfloat16' },
+              { label: 'Horace He — float formats overview', url: 'https://horace.io/brrr_intro.html' },
+              { label: 'PyTorch deterministic training', url: 'https://pytorch.org/docs/stable/notes/randomness.html' },
             ],
           },
         ],
@@ -3274,6 +3463,112 @@ export const tracks: Track[] = [
           },
         ],
       },
+      {
+        id: '7-20',
+        title: '7.20 Emergent Abilities, Grokking & Phase Transitions',
+        hours: '~6–8h',
+        why:
+          'The "why does scaling work?" research thread: emergent abilities (Wei), grokking (Power), phase transitions, and the Schaeffer critique ("Are Emergent Abilities a Mirage?"). Understanding when and why capabilities appear sharply with scale is foundational for scaling-laws, eval design, and interpretability.',
+        concept:
+          'Emergent abilities, sharp vs smooth scaling curves, metric-choice confounds (Schaeffer), grokking (delayed generalization), double descent, phase transitions, circuit formation dynamics, training-dynamics lens on capability.',
+        focus:
+          'Read Wei Emergent Abilities → Schaeffer "Mirage?" → Power Grokking → Nanda Progress Measures. Reproduce a tiny grokking run on modular addition and inspect train/val dynamics.',
+        primary: [
+          { label: 'Emergent Abilities of LLMs — arXiv:2206.07682', url: 'https://arxiv.org/abs/2206.07682' },
+          { label: 'Are Emergent Abilities a Mirage? — arXiv:2304.15004', url: 'https://arxiv.org/abs/2304.15004' },
+          { label: 'Grokking — Power et al. arXiv:2201.02177', url: 'https://arxiv.org/abs/2201.02177' },
+          { label: 'Nanda — Progress Measures for Grokking via Mech Interp (arXiv:2301.05217)', url: 'https://arxiv.org/abs/2301.05217' },
+        ],
+        fallbacks: [
+          {
+            label: 'Double descent & training dynamics',
+            links: [
+              { label: 'Deep Double Descent — arXiv:1912.02292', url: 'https://arxiv.org/abs/1912.02292' },
+              { label: 'Reconciling modern ML practice & classical bias-variance — arXiv:1812.11118', url: 'https://arxiv.org/abs/1812.11118' },
+              { label: 'Lottery Ticket Hypothesis — arXiv:1803.03635', url: 'https://arxiv.org/abs/1803.03635' },
+            ],
+          },
+          {
+            label: 'Commentary & context',
+            links: [
+              { label: 'Jason Wei — emergent abilities blog', url: 'https://www.jasonwei.net/blog/emergence' },
+              { label: 'Anthropic — Predictability and Surprise in Large Generative Models', url: 'https://arxiv.org/abs/2202.07785' },
+              { label: 'Neel Nanda — Grokking walkthrough', url: 'https://www.neelnanda.io/mechanistic-interpretability/modular-addition' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-21',
+        title: '7.21 In-Context Learning Theory & Induction Heads',
+        hours: '~6–8h',
+        why:
+          'In-context learning is the defining capability of modern LLMs, and induction heads (Olsson/Elhage) are the most concrete mechanism we have for it. Sits at the crossroads of mech interp, scaling laws, and prompt engineering — and shows up in every serious research interview.',
+        concept:
+          'Induction heads & copy-suppression, ICL = implicit Bayesian inference, ICL ≈ gradient descent (Garg, von Oswald), task vectors, function-class ICL, data distributional properties that cause ICL (burstiness), ICL vs fine-tuning trade-offs.',
+        focus:
+          'Read Anthropic In-Context Learning and Induction Heads, then one ICL-as-optimization paper (von Oswald or Garg). Trace an induction head pattern on a small model with TransformerLens.',
+        primary: [
+          { label: 'Anthropic — In-Context Learning and Induction Heads', url: 'https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html' },
+          { label: 'What Learning Algorithm is ICL? (Garg) — arXiv:2211.15661', url: 'https://arxiv.org/abs/2211.15661' },
+          { label: 'Transformers Learn In-Context by Gradient Descent — arXiv:2212.07677', url: 'https://arxiv.org/abs/2212.07677' },
+          { label: 'An Explanation of In-Context Learning as Implicit Bayesian Inference — arXiv:2111.02080', url: 'https://arxiv.org/abs/2111.02080' },
+        ],
+        fallbacks: [
+          {
+            label: 'Data & emergence of ICL',
+            links: [
+              { label: 'Data Distributional Properties Drive ICL — arXiv:2205.05055', url: 'https://arxiv.org/abs/2205.05055' },
+              { label: 'Rethinking the Role of Demonstrations — arXiv:2202.12837', url: 'https://arxiv.org/abs/2202.12837' },
+              { label: 'Task Vectors — arXiv:2310.15916', url: 'https://arxiv.org/abs/2310.15916' },
+            ],
+          },
+          {
+            label: 'Mech interp of attention',
+            links: [
+              { label: 'A Mathematical Framework for Transformer Circuits', url: 'https://transformer-circuits.pub/2021/framework/index.html' },
+              { label: 'TransformerLens docs', url: 'https://transformerlensorg.github.io/TransformerLens/' },
+              { label: 'Copy Suppression Heads — arXiv:2310.04625', url: 'https://arxiv.org/abs/2310.04625' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-22',
+        title: '7.22 Scaling Laws Deep Dive (Beyond Chinchilla)',
+        hours: '~6–8h',
+        why:
+          'Chinchilla is table stakes. Real frontier decisions use inference-aware scaling (Sardana), data-constrained scaling (Muennighoff), MoE-specific laws, and broken/neural scaling laws. Every pretraining decision — dataset size, model size, over-training ratio — is a scaling-law decision.',
+        concept:
+          'Kaplan vs Chinchilla, inference-aware / over-training (Sardana), data-constrained scaling (Muennighoff), broken neural scaling laws, MoE scaling (DeepSeek/Clark), transfer/downstream scaling, scaling of emergent metrics, extrapolation pitfalls.',
+        focus:
+          'Read Kaplan → Chinchilla → Sardana (inference-aware) → Muennighoff (data-constrained). Fit a simple (N, D, L) loss surface on a toy family of models and see which law wins on your setting.',
+        primary: [
+          { label: 'Kaplan Scaling Laws — arXiv:2001.08361', url: 'https://arxiv.org/abs/2001.08361' },
+          { label: 'Chinchilla — arXiv:2203.15556', url: 'https://arxiv.org/abs/2203.15556' },
+          { label: 'Beyond Chinchilla-Optimal (Sardana) — arXiv:2401.00448', url: 'https://arxiv.org/abs/2401.00448' },
+          { label: 'Scaling Data-Constrained LMs (Muennighoff) — arXiv:2305.16264', url: 'https://arxiv.org/abs/2305.16264' },
+        ],
+        fallbacks: [
+          {
+            label: 'Advanced scaling laws',
+            links: [
+              { label: 'Broken Neural Scaling Laws — arXiv:2210.14891', url: 'https://arxiv.org/abs/2210.14891' },
+              { label: 'Scaling Laws for Neural LMs on Downstream Tasks — arXiv:2402.04177', url: 'https://arxiv.org/abs/2402.04177' },
+              { label: 'Scaling Laws for Fine-Grained Mixture of Experts — arXiv:2402.07871', url: 'https://arxiv.org/abs/2402.07871' },
+              { label: 'Densing Law of LLMs — arXiv:2412.04315', url: 'https://arxiv.org/abs/2412.04315' },
+            ],
+          },
+          {
+            label: 'Transfer & context',
+            links: [
+              { label: 'Scaling Laws for Transfer — arXiv:2102.01293', url: 'https://arxiv.org/abs/2102.01293' },
+              { label: 'Scaling Laws for Precision — arXiv:2411.04330', url: 'https://arxiv.org/abs/2411.04330' },
+              { label: 'Finbarr Timbers — scaling-laws overview', url: 'https://www.artfintel.com/p/papers-ive-read-this-week-scaling' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -3668,6 +3963,41 @@ export const tracks: Track[] = [
             links: [
               { label: 'OpenTelemetry for GenAI', url: 'https://opentelemetry.io/blog/2024/llm-observability/' },
               { label: 'OpenLLMetry', url: 'https://www.traceloop.com/docs/openllmetry/introduction' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8-14',
+        title: '8.14 Streaming ML & Real-Time Feature Stores',
+        hours: '~8–10h',
+        why:
+          'Production ML rarely stays batch-only — fraud, personalization, search, agent memory, and real-time ranking all need streaming features with fresh data. Feature stores (Feast, Tecton) and stream processors (Kafka, Flink, Spark) are the backbone.',
+        concept:
+          'Event-driven architecture, Kafka topics/partitions, Flink vs Spark Structured Streaming, exactly-once semantics, online vs offline feature stores, point-in-time correctness, feature freshness SLAs, change data capture (CDC), online feature serving latency budgets.',
+        focus:
+          'Pick one real-time use case (fraud or personalization). Build a toy feature pipeline: CDC → Kafka → Flink/Spark → Feast online store → model serving. Measure feature freshness end-to-end.',
+        primary: [
+          { label: 'Feast — Feature Store docs', url: 'https://docs.feast.dev/' },
+          { label: 'Tecton — Real-Time ML blog', url: 'https://www.tecton.ai/blog/' },
+          { label: 'Apache Kafka docs', url: 'https://kafka.apache.org/documentation/' },
+          { label: 'Apache Flink ML docs', url: 'https://nightlies.apache.org/flink/flink-docs-release-1.19/' },
+        ],
+        fallbacks: [
+          {
+            label: 'Stream processing',
+            links: [
+              { label: 'Spark Structured Streaming guide', url: 'https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html' },
+              { label: 'Debezium (CDC) docs', url: 'https://debezium.io/documentation/' },
+              { label: 'Redpanda (Kafka-compatible)', url: 'https://docs.redpanda.com/' },
+            ],
+          },
+          {
+            label: 'Feature store design',
+            links: [
+              { label: 'Uber Michelangelo (feature store origins)', url: 'https://www.uber.com/en-US/blog/michelangelo-machine-learning-platform/' },
+              { label: 'Chip Huyen — Real-time ML challenges', url: 'https://huyenchip.com/2022/01/02/real-time-machine-learning-challenges-and-solutions.html' },
+              { label: 'Eugene Yan — Feature stores', url: 'https://eugeneyan.com/writing/feature-stores/' },
             ],
           },
         ],
