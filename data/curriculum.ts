@@ -3569,6 +3569,96 @@ export const tracks: Track[] = [
           },
         ],
       },
+      {
+        id: '7-23',
+        title: '7.23 Alignment Research Agenda (Scalable Oversight & Deceptive Alignment)',
+        hours: '~10–12h',
+        why:
+          "Distinct from 7.7 (adversarial attacks) and 7.17 (capability evals). This is the research agenda frontier alignment teams hire on: how do you supervise a model smarter than you, and how do you detect a model that's optimizing for something other than what you asked? Core reading for Anthropic Alignment, OpenAI (ex-Superalignment), DeepMind AGI Safety.",
+        concept:
+          'Scalable oversight (debate, market-making, IDA), weak-to-strong generalization, recursive reward modeling, sycophancy & deceptive alignment, mesa-optimization & inner alignment, sleeper agents, constitutional / RLAIF as alignment technique, model organisms of misalignment.',
+        focus:
+          "Read Christiano IDA + Anthropic Core Views + OpenAI weak-to-strong + Hubinger Sleeper Agents + Risks from Learned Optimization. Skim Irving Debate. Form your own view on which agendas you'd bet on.",
+        primary: [
+          { label: 'Anthropic — Core Views on AI Safety', url: 'https://www.anthropic.com/news/core-views-on-ai-safety' },
+          { label: 'OpenAI — Weak-to-Strong Generalization (arXiv:2312.09390)', url: 'https://arxiv.org/abs/2312.09390' },
+          { label: 'Sleeper Agents (Anthropic) — arXiv:2401.05566', url: 'https://arxiv.org/abs/2401.05566' },
+          { label: 'Risks from Learned Optimization (Hubinger) — arXiv:1906.01820', url: 'https://arxiv.org/abs/1906.01820' },
+        ],
+        fallbacks: [
+          {
+            label: 'Scalable oversight',
+            links: [
+              { label: 'Christiano — Iterated Distillation & Amplification', url: 'https://ai-alignment.com/iterated-distillation-and-amplification-157debfd1616' },
+              { label: 'AI Safety via Debate — arXiv:1805.00899', url: 'https://arxiv.org/abs/1805.00899' },
+              { label: 'Measuring Progress on Scalable Oversight — arXiv:2211.03540', url: 'https://arxiv.org/abs/2211.03540' },
+              { label: 'Constitutional AI — arXiv:2212.08073', url: 'https://arxiv.org/abs/2212.08073' },
+            ],
+          },
+          {
+            label: 'Deception, sycophancy & model organisms',
+            links: [
+              { label: 'Discovering LM Behaviors with Model-Written Evals — arXiv:2212.09251', url: 'https://arxiv.org/abs/2212.09251' },
+              { label: 'Sycophancy in LMs — arXiv:2310.13548', url: 'https://arxiv.org/abs/2310.13548' },
+              { label: 'Model Organisms of Misalignment (Anthropic)', url: 'https://www.anthropic.com/research/model-organisms-of-misalignment' },
+              { label: 'Alignment Faking in LLMs (Anthropic)', url: 'https://www.anthropic.com/research/alignment-faking' },
+            ],
+          },
+          {
+            label: 'Agendas & orientation',
+            links: [
+              { label: 'AI Alignment Forum', url: 'https://www.alignmentforum.org/' },
+              { label: 'DeepMind — Frontier AI Safety Commitments', url: 'https://deepmind.google/discover/blog/an-approach-to-technical-agi-safety/' },
+              { label: 'Paul Christiano — research agenda', url: 'https://www.alignmentforum.org/posts/ZeE7EKHTFMBs8eMxn/clarifying-ai-alignment' },
+              { label: 'MIRI — agent foundations', url: 'https://intelligence.org/research/' },
+            ],
+          },
+        ],
+      },
+      {
+        id: '7-24',
+        title: '7.24 Deep Learning Theory (NTK, Feature Learning & Implicit Bias)',
+        hours: '~8–10h',
+        why:
+          'The theoretical complement to empirical DL. Why do overparameterized nets generalize? How does SGD pick flat minima? When does NTK apply and when does feature learning take over? These are live research directions with papers at every NeurIPS/ICML and show up in research-oriented interviews.',
+        concept:
+          'Neural Tangent Kernel (NTK) & lazy training, feature-learning regime (µP), implicit bias of SGD (flat minima, margin), loss landscape geometry, mode connectivity, mean-field limits of wide nets, edge of stability, generalization bounds via norm & compression.',
+        focus:
+          "Read Jacot NTK + Chizat lazy training + Keskar flat minima + Cohen edge of stability. Pair with Yang's µP for the bridge between theory and practice.",
+        primary: [
+          { label: 'Neural Tangent Kernel (Jacot) — arXiv:1806.07572', url: 'https://arxiv.org/abs/1806.07572' },
+          { label: 'Lazy Training in Differentiable Programming (Chizat) — arXiv:1812.07956', url: 'https://arxiv.org/abs/1812.07956' },
+          { label: 'Feature Learning in Infinite-Width NNs (µP, Yang) — arXiv:2011.14522', url: 'https://arxiv.org/abs/2011.14522' },
+          { label: 'On Large-Batch Training & Flat Minima (Keskar) — arXiv:1609.04836', url: 'https://arxiv.org/abs/1609.04836' },
+        ],
+        fallbacks: [
+          {
+            label: 'Loss landscape & optimization dynamics',
+            links: [
+              { label: 'Edge of Stability (Cohen) — arXiv:2103.00065', url: 'https://arxiv.org/abs/2103.00065' },
+              { label: 'Loss Landscapes of Neural Nets (Li) — arXiv:1712.09913', url: 'https://arxiv.org/abs/1712.09913' },
+              { label: 'Mode Connectivity — arXiv:1802.10026', url: 'https://arxiv.org/abs/1802.10026' },
+              { label: 'Understanding DL Requires Rethinking Generalization — arXiv:1611.03530', url: 'https://arxiv.org/abs/1611.03530' },
+            ],
+          },
+          {
+            label: 'Implicit bias & representation learning theory',
+            links: [
+              { label: 'Implicit Bias of Gradient Descent (Soudry) — arXiv:1710.10345', url: 'https://arxiv.org/abs/1710.10345' },
+              { label: 'SGD Implicit Regularization — arXiv:2101.12176', url: 'https://arxiv.org/abs/2101.12176' },
+              { label: 'A Theory of Neural Scaling Laws (Bahri) — arXiv:2102.06701', url: 'https://arxiv.org/abs/2102.06701' },
+            ],
+          },
+          {
+            label: 'Courses & surveys',
+            links: [
+              { label: 'Princeton — Theoretical Deep Learning (Arora)', url: 'https://www.cs.princeton.edu/courses/archive/fall19/cos597B/' },
+              { label: 'Stanford STATS385 — Theories of DL', url: 'https://stats385.github.io/' },
+              { label: 'Roberts & Yaida — Principles of Deep Learning Theory', url: 'https://arxiv.org/abs/2106.10165' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
